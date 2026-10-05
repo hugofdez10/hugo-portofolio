@@ -26,6 +26,7 @@ import { Navigation } from "./Navigation";
 import { ProjectVisual } from "./ProjectVisual";
 import { Terminal } from "./Terminal";
 import { DesignMotion, HeroArtwork } from "./DesignMotion";
+import { GlobalEffects, HeroField, ParticleMorph } from "./Effects";
 
 function SectionIntro({
   eyebrow,
@@ -192,8 +193,10 @@ export function Portfolio({ locale }: { locale: Locale }) {
     <>
       <Navigation locale={locale} />
       <DesignMotion />
+      <GlobalEffects />
       <main>
         <section className="hero" id="top">
+          <HeroField />
           <div className="hero-glow" />
           <div className="container hero-inner">
             <div className="hero-content">
@@ -281,6 +284,8 @@ export function Portfolio({ locale }: { locale: Locale }) {
             </div>
           </div>
         </section>
+
+        <ParticleMorph locale={locale} />
 
         <section className="metrics-band" aria-label="Profile highlights">
           <div className="container metrics-grid">
