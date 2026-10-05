@@ -599,31 +599,6 @@ body .hero-period {
   }
 }
 
-/* Portrait: rotating conic halo */
-.hero-artwork::before {
-  content: "";
-  position: absolute;
-  inset: -40%;
-  z-index: -1;
-  background: conic-gradient(from 0deg, transparent 0 70%, #c3ee82 85%, transparent 100%);
-  animation: fx-spin 6s linear infinite;
-  opacity: 0.55;
-}
-.hero-artwork {
-  isolation: isolate;
-}
-.hero-portrait img {
-  inset: 3px !important;
-  width: calc(100% - 6px) !important;
-  height: calc(100% - 6px) !important;
-  border-radius: inherit;
-}
-@keyframes fx-spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
 /* Particle morph band */
 .morph-band {
   position: relative;
@@ -763,8 +738,7 @@ body .featured-card:hover .project-visual {
 }
 @media (prefers-reduced-motion: reduce) {
   body .hero h1 > span,
-  body .hero-period,
-  .hero-artwork::before {
+  body .hero-period {
     animation: none !important;
   }
   .fx-pre {
