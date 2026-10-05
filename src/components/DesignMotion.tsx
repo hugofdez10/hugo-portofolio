@@ -31,7 +31,7 @@ export function HeroArtwork() {
   return (
     <figure className="hero-artwork hero-portrait">
       <Image
-        src="/images/hugo-portrait-hq.png"
+        src="/images/hugo-portrait-new.jpg"
         alt="Hugo Fernández Díez"
         fill
         priority
