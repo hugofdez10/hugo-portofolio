@@ -27,6 +27,7 @@ import { ProjectVisual } from "./ProjectVisual";
 import { Terminal } from "./Terminal";
 import { DesignMotion, HeroArtwork } from "./DesignMotion";
 import { GlobalEffects, HeroField, ParticleMorph } from "./Effects";
+import { Hackathons } from "./Hackathons";
 
 function SectionIntro({
   eyebrow,
@@ -495,6 +496,8 @@ export function Portfolio({ locale }: { locale: Locale }) {
             </div>
           </div>
         </section>
+
+        <Hackathons locale={locale} />
 
         {labProjects.length > 0 && (
           <section className="section lab-section" id="lab">

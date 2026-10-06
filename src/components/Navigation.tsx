@@ -52,6 +52,7 @@ export function Navigation({
     ["experience", t.nav.experience],
     ["about", t.nav.about],
     ["stack", t.nav.stack],
+    ["quemando-tokens", t.nav.hackathons],
     ["contact", t.nav.contact],
   ];
   return (
