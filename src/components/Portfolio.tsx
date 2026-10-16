@@ -1,620 +1,242 @@
+import type { CSSProperties } from "react";
 import Link from "next/link";
-import {
-  ArrowDown,
-  ArrowRight,
-  ArrowUpRight,
-  Github,
-  Linkedin,
-  Mail,
-  MapPin,
-  MoveUpRight,
-} from "lucide-react";
+import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { copy, type Locale } from "@/lib/i18n";
-import {
-  featuredProjects,
-  labProjects,
-  mainProjects,
-  secondaryProjects,
-  type Project,
-} from "@/data/projects";
+import { projects } from "@/data/projects";
 import { experience } from "@/data/experience";
+import { education } from "@/data/education";
+import { gipuzkoa360 } from "@/data/hackathons";
 import { stack } from "@/data/stack";
-import { socials } from "@/data/socials";
-import { existsSync } from "node:fs";
-import path from "node:path";
+import { cvPath, socials } from "@/data/socials";
 import { Navigation } from "./Navigation";
-import { ProjectVisual } from "./ProjectVisual";
-import { Terminal } from "./Terminal";
-import { DesignMotion, HeroArtwork } from "./DesignMotion";
-import { GlobalEffects, HeroField, ParticleMorph } from "./Effects";
-import { Hackathons } from "./Hackathons";
+import { Footer } from "./Footer";
+import { Motion } from "./Motion";
 
-function SectionIntro({
-  eyebrow,
-  title,
-  body,
-}: {
-  eyebrow: string;
-  title: string;
-  body?: string;
-}) {
+const external = { target: "_blank", rel: "noopener noreferrer" } as const;
+/** Stagger index consumed by the CSS animations. */
+const order = (i: number) => ({ "--i": i }) as CSSProperties;
+
+function SectionHead({ eyebrow, title }: { eyebrow: string; title: string }) {
   return (
-    <div className="section-intro">
-      <span className="eyebrow">
-        <span className="blue-dot" />
-        {eyebrow}
-      </span>
-      <div className="section-intro-row">
-        <h2>{title}</h2>
-        {body && <p>{body}</p>}
-      </div>
+    <div className="section-head" data-reveal>
+      <span className="eyebrow">{eyebrow}</span>
+      <h2>{title}</h2>
     </div>
   );
 }
 
-function Tags({ items }: { items: string[] }) {
-  return (
-    <div className="tags">
-      {items.map((item) => (
-        <span key={item}>{item}</span>
-      ))}
-    </div>
-  );
-}
-
-function FeaturedCard({
-  project,
-  locale,
-  index,
+function Rows({
+  items,
 }: {
-  project: Project;
-  locale: Locale;
-  index: number;
+  items: {
+    key: string;
+    name: string;
+    meta: string;
+    end: string;
+    href?: string;
+  }[];
 }) {
-  const t = copy[locale];
   return (
-    <article className="featured-card">
-      <div className="featured-content">
-        <div className="featured-meta">
-          <span>
-            {String(index + 1).padStart(2, "0")} / {t.featured}
-          </span>
-          <span>
-            {project.year} · {project.status[locale]}
-          </span>
-        </div>
-        <div>
-          <p className="project-context">{project.context[locale]}</p>
-          <h3>{project.name}</h3>
-          <p className="project-category">{project.category[locale]}</p>
-          <p className="project-description">{project.description[locale]}</p>
-          <ul className="highlight-list">
-            {project.highlights[locale].map((item) => (
-              <li key={item}>{item}</li>
-            ))}
-          </ul>
-        </div>
-        <div>
-          <Tags items={project.stack} />
-          <div className="project-actions">
-            <Link
-              href={`/${locale}/work/${project.slug}`}
-              className="text-link"
-            >
-              {t.viewCase} <ArrowUpRight size={18} />
-            </Link>
-            {project.url && (
-              <a
-                className="subtle-link"
-                href={project.url}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                {t.visit} <ArrowUpRight size={15} />
+    <ul className="rows" data-reveal>
+      {items.map((item, index) => {
+        const content = (
+          <>
+            <span className="row-name">{item.name}</span>
+            <span className="row-meta">{item.meta}</span>
+            <span className="row-end">
+              {item.end}
+              {item.href && <ArrowUpRight size={14} />}
+            </span>
+          </>
+        );
+        return (
+          <li key={item.key} style={order(index)}>
+            {item.href ? (
+              <a href={item.href} {...external}>
+                {content}
               </a>
+            ) : (
+              <div>{content}</div>
             )}
-          </div>
-        </div>
-      </div>
-      <Link
-        href={`/${locale}/work/${project.slug}`}
-        className="featured-visual-link"
-        aria-label={`${t.viewCase}: ${project.name}`}
-      >
-        <ProjectVisual
-          variant={index === 0 ? "housing" : "shuttle"}
-          title={project.name}
-          screenshot={
-            project.screenshot && {
-              src: project.screenshot.src,
-              alt: project.screenshot.alt[locale],
-              label: project.screenshot.label[locale],
-            }
-          }
-        />
-      </Link>
-    </article>
-  );
-}
-
-function ProjectCard({
-  project,
-  locale,
-}: {
-  project: Project;
-  locale: Locale;
-}) {
-  const t = copy[locale];
-  return (
-    <article className="project-card">
-      <div className="card-top">
-        <span>
-          {project.year} / {project.status[locale]}
-        </span>
-        <MoveUpRight size={18} />
-      </div>
-      <div>
-        <p className="project-context">{project.context[locale]}</p>
-        <h3>{project.name}</h3>
-        <p className="project-category">{project.category[locale]}</p>
-        <p className="project-description">{project.description[locale]}</p>
-      </div>
-      <div>
-        <Tags items={project.stack} />
-        <a
-          className="text-link"
-          href={project.repository}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          {locale === "es" ? "Ver código en GitHub" : "View code on GitHub"}{" "}
-          <Github size={16} />
-        </a>
-        {project.url && (
-          <a
-            className="text-link"
-            href={project.url}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            {t.visit} <ArrowUpRight size={16} />
-          </a>
-        )}
-      </div>
-    </article>
+          </li>
+        );
+      })}
+    </ul>
   );
 }
 
 export function Portfolio({ locale }: { locale: Locale }) {
   const t = copy[locale];
-  const cvAvailable = existsSync(
-    path.join(process.cwd(), "public", "cv-hugo-fernandez-diez.pdf"),
-  );
+  const featured = projects.filter((p) => p.kind === "company");
+  const more = projects.filter((p) => p.kind !== "company");
   return (
     <>
       <Navigation locale={locale} />
-      <DesignMotion />
-      <GlobalEffects />
+      <Motion />
       <main>
-        <section className="hero" id="top">
-          <HeroField />
-          <div className="hero-glow" />
-          <div className="container hero-inner">
-            <div className="hero-content">
-              <div className="availability">
-                <span className="pulse-dot" />
-                {t.availability}
-              </div>
-              <p className="hero-kicker">{t.heroKicker}</p>
-              <h1>
-                <span>Hugo</span>
-                <br />
-                <span>
-                  Fernández Díez<span className="hero-period">.</span>
-                </span>
-              </h1>
-              <p className="hero-statement">{t.heroTitle}</p>
-              <p className="hero-body">{t.heroBody}</p>
-              <div className="hero-actions">
-                <Link
-                  href={`/${locale}/#work`}
-                  className="button button-primary"
-                >
-                  {t.explore} <ArrowDown size={17} />
-                </Link>
-                <a
-                  href={socials.github}
-                  className="button button-secondary"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  GitHub <ArrowUpRight size={17} />
-                </a>
-                {cvAvailable && (
-                  <a
-                    href="/cv-hugo-fernandez-diez.pdf"
-                    download
-                    className="button button-secondary"
-                  >
-                    {t.download} <ArrowDown size={17} />
-                  </a>
-                )}
-                <a href={socials.email} className="hero-talk">
-                  {t.talk} <ArrowRight size={16} />
-                </a>
-              </div>
-            </div>
-            <HeroArtwork />
-            <div className="hero-command" aria-hidden="true">
-              <div>
-                <span className="terminal-dots">
-                  <i />
-                  <i />
-                  <i />
-                </span>
-                <span>hugo@portfolio ~</span>
-              </div>
-              <p>
-                <span>$</span> whoami
-              </p>
-              <p>
-                {locale === "en"
-                  ? "Software developer"
-                  : "Desarrollador de software"}
-                <br />
-                Computer Engineering @ Deusto
-                <br />
-                {locale === "en"
-                  ? "Building useful things_"
-                  : "Construyendo cosas útiles_"}
-              </p>
-              <small>
-                STATUS: BUILDING <span>●</span>
-              </small>
-            </div>
-            <div className="hero-bottom">
-              <div className="hero-disciplines">
-                <span>SOFTWARE</span>
-                <span>PRODUCT</span>
-                <span>AI</span>
-                <span>AUTOMATION</span>
-              </div>
-              <span className="hero-scroll">
-                {t.scroll} <ArrowDown size={14} />
+        <section className="hero container" id="top">
+          <span className="availability intro" style={order(0)}>
+            <span className="status-dot" />
+            {t.availability}
+          </span>
+          <h1 aria-label="Hugo Fernández Díez">
+            {["Hugo", "Fernández", "Díez"].map((word, index) => (
+              <span className="word" key={word} aria-hidden="true">
+                <span style={order(index + 1)}>{word}</span>
               </span>
-            </div>
+            ))}
+          </h1>
+          <p className="hero-role intro" style={order(4)}>
+            {t.role}
+          </p>
+          <p className="hero-body intro" style={order(5)}>
+            {t.heroBody}
+          </p>
+          <div className="hero-actions intro" style={order(6)}>
+            <Link href={`/${locale}/#work`} className="button button-light">
+              {t.explore} <ArrowRight size={16} />
+            </Link>
+            <Link href={`/${locale}/#contact`} className="button button-ghost">
+              {t.contactCta}
+            </Link>
           </div>
-        </section>
-
-        <ParticleMorph locale={locale} />
-
-        <section className="metrics-band" aria-label="Profile highlights">
-          <div className="container metrics-grid">
+          <dl className="metrics intro" style={order(7)} data-reveal>
             {t.metrics.map(([value, label]) => (
-              <div className="metric" key={value}>
-                <strong>{value}</strong>
-                <span>{label}</span>
+              <div key={label}>
+                <dt data-count={value}>{value}</dt>
+                <dd>{label}</dd>
               </div>
             ))}
-          </div>
+          </dl>
         </section>
 
-        <section className="section work-section" id="work">
-          <div className="container">
-            <SectionIntro
-              eyebrow={t.workEyebrow}
-              title={t.workTitle}
-              body={t.workIntro}
-            />
-            <div className="featured-list">
-              {featuredProjects.map((project, index) => (
-                <FeaturedCard
-                  key={project.slug}
-                  project={project}
-                  locale={locale}
-                  index={index}
-                />
-              ))}
-            </div>
-            {featuredProjects.length > 0 && (
-              <div className="subsection-heading">
-                <div>
-                  <span className="eyebrow">/ 03—04</span>
-                  <h3>{t.moreWork}</h3>
-                  <p>{t.moreWorkBody}</p>
-                </div>
-              </div>
-            )}
-            <div className="project-grid">
-              {mainProjects.map((project) => (
-                <ProjectCard
-                  key={project.slug}
-                  project={project}
-                  locale={locale}
-                />
-              ))}
-            </div>
-            <div className="compact-projects">
-              {secondaryProjects.map((project) => (
-                <article className="compact-project" key={project.slug}>
-                  <span className="compact-index">
-                    {project.year} / {project.status[locale]}
-                  </span>
-                  <div>
-                    <h3>{project.name}</h3>
-                    <p>{project.description[locale]}</p>
-                    <Tags items={project.stack} />
-                  </div>
+        <section className="section container" id="work">
+          <SectionHead eyebrow={t.workEyebrow} title={t.workTitle} />
+          <div className="featured">
+            {featured.map((project, index) => (
+              <article
+                className="panel card"
+                key={project.slug}
+                data-reveal
+                style={order(index)}
+              >
+                <span className="label label-company">
+                  {project.label[locale]}
+                </span>
+                <h3>{project.name}</h3>
+                <p>{project.description[locale]}</p>
+                <p className="card-stack">
+                  {project.stack.slice(0, 3).join(" · ")}
+                </p>
+                <div className="links">
+                  {project.caseStudy && (
+                    <Link href={`/${locale}/work/${project.slug}`}>
+                      {t.caseStudy} <ArrowRight size={14} />
+                    </Link>
+                  )}
                   {project.url && (
-                    <a
-                      href={project.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      aria-label={`${t.visit}: ${project.name}`}
-                    >
-                      <ArrowUpRight size={20} />
+                    <a href={project.url} {...external}>
+                      {t.visit} <ArrowUpRight size={14} />
                     </a>
                   )}
-                </article>
-              ))}
-            </div>
+                </div>
+              </article>
+            ))}
           </div>
+          <h3 className="list-title" data-reveal>
+            {t.more}
+          </h3>
+          <Rows
+            items={more.map((project) => ({
+              key: project.slug,
+              name: project.name,
+              meta: project.category[locale],
+              end: project.year,
+              href: project.url ?? project.repository,
+            }))}
+          />
         </section>
 
-        <section className="section process-section" id="process">
-          <div className="container">
-            <SectionIntro
-              eyebrow={t.processEyebrow}
-              title={t.processTitle}
-              body={t.processIntro}
-            />
-            <div className="process-grid">
-              {t.process.map(([title, description], index) => (
-                <div className="process-step" key={title}>
-                  <span className="process-number">0{index + 1}</span>
-                  <div className="process-line" />
-                  <h3>{title}</h3>
-                  <p>{description}</p>
-                </div>
-              ))}
+        <section className="section container" id="hackathons">
+          <SectionHead
+            eyebrow={t.hackathonsEyebrow}
+            title={t.hackathonsTitle}
+          />
+          <article className="panel card hackathon" data-reveal>
+            <div className="card-top">
+              <span className="label label-award">Top 3</span>
+              <span className="card-event">{gipuzkoa360.event}</span>
             </div>
-          </div>
+            <h3>{gipuzkoa360.name}</h3>
+            <p>{gipuzkoa360.summary[locale]}</p>
+            <p className="card-stack">{gipuzkoa360.team[locale]}</p>
+            <div className="links">
+              <a href={gipuzkoa360.demo} {...external}>
+                {t.demo} <ArrowUpRight size={14} />
+              </a>
+              <a href={gipuzkoa360.repository} {...external}>
+                {t.code} <ArrowUpRight size={14} />
+              </a>
+            </div>
+          </article>
+          <p className="footnote" data-reveal>
+            {t.upcoming}
+          </p>
         </section>
 
-        <section className="section experience-section" id="experience">
-          <div className="container">
-            <SectionIntro
-              eyebrow={t.experienceEyebrow}
-              title={t.experienceTitle}
-              body={t.experienceIntro}
-            />
-            <div className="timeline">
-              {experience.map((item) => (
-                <div className="timeline-item" key={item.period}>
-                  <div className="timeline-period">{item.period}</div>
-                  <div className="timeline-main">
-                    <div className="timeline-title">
-                      <h3>{item.place[locale]}</h3>
-                      <span>
-                        <MapPin size={14} />
-                        {item.location[locale]}
-                      </span>
-                    </div>
-                    <div className="timeline-roles">
-                      {item.roles.map((role) => (
-                        <div key={role.title.en}>
-                          <h4>{role.title[locale]}</h4>
-                          <p>{role.description[locale]}</p>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
+        <section className="section container" id="experience">
+          <SectionHead
+            eyebrow={t.experienceEyebrow}
+            title={t.experienceTitle}
+          />
+          <Rows
+            items={experience.map((item) => ({
+              key: item.title.en,
+              name: item.title[locale],
+              meta: item.place[locale],
+              end: item.period[locale],
+            }))}
+          />
+          <h3 className="list-title" data-reveal>
+            {t.education}
+          </h3>
+          <Rows
+            items={education.map((item) => ({
+              key: item.title.en,
+              name: item.title[locale],
+              meta: item.place[locale],
+              end: item.period,
+            }))}
+          />
+          <h3 className="list-title" data-reveal>
+            {t.stackLabel}
+          </h3>
+          <ul className="stack-line" data-reveal>
+            {stack.map((item, index) => (
+              <li key={item} style={order(index)}>
+                {item}
+              </li>
+            ))}
+          </ul>
         </section>
 
-        <section className="section stack-section" id="stack">
-          <div className="container">
-            <SectionIntro
-              eyebrow={t.stackEyebrow}
-              title={t.stackTitle}
-              body={t.stackIntro}
-            />
-            <div className="stack-grid">
-              {stack.map((group) => (
-                <div className="stack-group" key={group.label.en}>
-                  <span className="stack-label">{group.label[locale]}</span>
-                  <div>
-                    {group.items.map((item) => (
-                      <span key={item}>{item}</span>
-                    ))}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        <section className="section ai-section">
-          <div className="container ai-layout">
-            <div>
-              <span className="eyebrow">
-                <span className="blue-dot" />
-                {t.aiEyebrow}
-              </span>
-              <h2>{t.aiTitle}</h2>
-              <p className="ai-body">{t.aiBody}</p>
-              <p className="ai-note">{t.aiNote}</p>
-            </div>
-            <div className="ai-workflow">
-              <div className="workflow-top">
-                <span>HUGO / DEVELOPMENT LOOP</span>
-                <span>↗</span>
-              </div>
-              <div className="workflow-steps">
-                {t.aiSteps.map((step, i) => (
-                  <div key={step}>
-                    <span>0{i + 1}</span>
-                    <strong>{step}</strong>
-                    <ArrowRight size={17} />
-                  </div>
-                ))}
-              </div>
-              <div className="workflow-bottom">
-                HUMAN JUDGMENT <span>×</span> MODERN TOOLS
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section className="section about-section" id="about">
-          <div className="container">
-            <SectionIntro eyebrow={t.aboutEyebrow} title={t.aboutTitle} />
-            <div className="about-grid">
-              <div className="about-copy">
-                <p>{t.aboutP1}</p>
-                <p>{t.aboutP2}</p>
-                <div className="about-aside">
-                  <span>WHEN I’M NOT BUILDING</span>
-                  <p>{t.aboutSmall}</p>
-                </div>
-              </div>
-              <div className="about-facts">
-                <div>
-                  <span>01 / {t.education}</span>
-                  <h3>{t.educationBody}</h3>
-                  <p>{t.educationMeta}</p>
-                </div>
-                <div>
-                  <span>02 / {t.international}</span>
-                  <h3>Canada ↗ United States ↗ Spain</h3>
-                  <p>{t.internationalBody}</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <Hackathons locale={locale} />
-
-        {labProjects.length > 0 && (
-          <section className="section lab-section" id="lab">
-            <div className="container">
-              <SectionIntro
-                eyebrow={t.labEyebrow}
-                title={t.labTitle}
-                body={t.labIntro}
-              />
-              <div className="lab-list">
-                {labProjects.map((project) => (
-                  <div className="lab-item" key={project.slug}>
-                    <div>
-                      <span>{project.status[locale]}</span>
-                      <h3>{project.name}</h3>
-                      <p>{project.description[locale]}</p>
-                    </div>
-                    {project.url && (
-                      <a
-                        href={project.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        aria-label={`${t.visit}: ${project.name}`}
-                      >
-                        <ArrowUpRight size={20} />
-                      </a>
-                    )}
-                  </div>
-                ))}
-              </div>
-            </div>
-          </section>
-        )}
-
-        <section className="contact-section" id="contact">
-          <div className="container">
-            <span className="eyebrow">
-              <span className="blue-dot" />
-              {t.contactEyebrow}
-            </span>
+        <section className="section container contact" id="contact">
+          <div data-reveal>
+            <span className="eyebrow">{t.contactEyebrow}</span>
             <h2>{t.contactTitle}</h2>
             <p>{t.contactBody}</p>
-            <div className="contact-actions">
-              {cvAvailable && (
-                <a
-                  className="button button-secondary"
-                  href="/cv-hugo-fernandez-diez.pdf"
-                  download="CV_Hugo_Fernandez_Diez.pdf"
-                >
-                  {t.download} <ArrowDown size={18} />
-                </a>
-              )}
+            <div className="hero-actions">
               <a className="button button-light" href={socials.email}>
-                {t.email} <Mail size={18} />
+                {t.email} <ArrowRight size={16} />
               </a>
-              <a
-                className="contact-social"
-                href={socials.linkedin}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                LinkedIn <ArrowUpRight size={17} />
-              </a>
-              <a
-                className="contact-social"
-                href={socials.github}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                GitHub <ArrowUpRight size={17} />
+              <a className="button button-ghost" href={cvPath} {...external}>
+                {t.download} <ArrowUpRight size={16} />
               </a>
             </div>
-            <a className="email-address" href={socials.email}>
-              hugofdezdiez@gmail.com
-            </a>
           </div>
         </section>
       </main>
-      <footer className="footer">
-        <div className="container footer-grid">
-          <div>
-            <Link href={`/${locale}`} className="brand">
-              HF<span>.</span>
-            </Link>
-            <p>
-              Hugo Fernández Díez
-              <br />
-              Computer Engineering · Software · AI · Product
-            </p>
-          </div>
-          <div>
-            <span>LOCATION</span>
-            <p>Bilbao / Santander, Spain</p>
-          </div>
-          <div>
-            <span>CONNECT</span>
-            <a href={socials.github} target="_blank" rel="noopener noreferrer">
-              <Github size={16} /> GitHub
-            </a>
-            <a
-              href={socials.linkedin}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <Linkedin size={16} /> LinkedIn
-            </a>
-            <a href={socials.email}>
-              <Mail size={16} /> Email
-            </a>
-          </div>
-        </div>
-        <div className="container footer-bottom">
-          <span>© 2026 Hugo Fernández Díez</span>
-          <span>{t.footerLine}</span>
-          <Terminal locale={locale} />
-        </div>
-      </footer>
+      <Footer locale={locale} />
     </>
   );
 }

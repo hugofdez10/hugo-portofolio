@@ -1,6 +1,6 @@
 # Hugo Fernández Díez — Portfolio
 
-Bilingual portfolio built with Next.js App Router, TypeScript and Tailwind CSS. Content is statically rendered, with a small client component for navigation and the terminal easter egg.
+Bilingual portfolio built with Next.js App Router, TypeScript and Tailwind CSS. Content is statically rendered, with a single client component for navigation.
 
 ## Run locally
 
@@ -19,7 +19,7 @@ Set `NEXT_PUBLIC_SITE_URL` to the final public origin, without a trailing slash.
 NEXT_PUBLIC_SITE_URL=https://your-domain.example
 ```
 
-There is no CV download button until a real PDF is available. To enable it, add `public/cv-hugo-fernandez-diez.pdf`; the hero displays the link automatically on the next build. This avoids a broken download in the published site.
+The CV lives at `public/cv-hugo-fernandez-diez.pdf`; replace that file to update it.
 
 ## Update content
 
@@ -28,6 +28,7 @@ There is no CV download button until a real PDF is available. To enable it, add 
 - `src/data/experience.ts`: work timeline.
 - `src/data/stack.ts`: tools by category.
 - `src/data/education.ts`: education data.
+- `src/data/hackathons.ts`: hackathon results (Gipuzkoa 360).
 - `src/data/socials.ts`: contact links.
 
 Project screenshots are configured through the optional `screenshot` field in `src/data/projects.ts`. Housing Management uses a redacted version of the supplied product capture in `public/images/`. Projects without supplied captures retain explicitly labelled conceptual workflow illustrations. Never add unredacted private operational records.

@@ -2,9 +2,9 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { ArrowUpRight, Menu, X } from "lucide-react";
+import { Download, Menu, X } from "lucide-react";
 import { copy, type Locale } from "@/lib/i18n";
-import { socials } from "@/data/socials";
+import { cvPath } from "@/data/socials";
 
 export function Navigation({
   locale,
@@ -42,19 +42,33 @@ export function Navigation({
         /* Ignore an invalid saved position. */
       }
     }
-    const onScroll = () => setScrolled(window.scrollY > 20);
+    const onScroll = () => setScrolled(window.scrollY > 12);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, [locale]);
   const links = [
     ["work", t.nav.work],
+    ["hackathons", t.nav.hackathons],
     ["experience", t.nav.experience],
-    ["about", t.nav.about],
-    ["stack", t.nav.stack],
-    ["quemando-tokens", t.nav.hackathons],
     ["contact", t.nav.contact],
   ];
+  const languageLink = (target: Locale) => (
+    <Link
+      className={locale === target ? "active" : ""}
+      href={`/${target}${path}`}
+      scroll={false}
+      onClick={(event) => {
+        if (locale === target) event.preventDefault();
+        else rememberLanguagePosition(target);
+        setOpen(false);
+      }}
+      lang={target}
+      aria-current={locale === target ? "page" : undefined}
+    >
+      {target.toUpperCase()}
+    </Link>
+  );
   return (
     <header className={`site-header ${scrolled ? "is-scrolled" : ""}`}>
       <div className="container nav-inner">
@@ -63,7 +77,7 @@ export function Navigation({
           href={`/${locale}`}
           aria-label="Hugo Fernández Díez — home"
         >
-          HF<span>.</span>
+          <span className="brand-mark">HF</span>
         </Link>
         <nav
           className={`nav-links ${open ? "open" : ""}`}
@@ -78,67 +92,27 @@ export function Navigation({
               {label}
             </Link>
           ))}
-          <div className="mobile-nav-extra">
-            <a href={socials.github} target="_blank" rel="noopener noreferrer">
-              GitHub <ArrowUpRight size={14} />
-            </a>
-            <a
-              href={socials.linkedin}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              LinkedIn <ArrowUpRight size={14} />
-            </a>
-          </div>
         </nav>
         <div className="nav-actions">
           <div className="lang-switch" aria-label="Language">
-            <Link
-              className={locale === "en" ? "active" : ""}
-              href={`/en${path}`}
-              scroll={false}
-              onClick={(event) => {
-                if (locale === "en") event.preventDefault();
-                else rememberLanguagePosition("en");
-                setOpen(false);
-              }}
-              lang="en"
-              aria-current={locale === "en" ? "page" : undefined}
-            >
-              EN
-            </Link>
-            <span>/</span>
-            <Link
-              className={locale === "es" ? "active" : ""}
-              href={`/es${path}`}
-              scroll={false}
-              onClick={(event) => {
-                if (locale === "es") event.preventDefault();
-                else rememberLanguagePosition("es");
-                setOpen(false);
-              }}
-              lang="es"
-              aria-current={locale === "es" ? "page" : undefined}
-            >
-              ES
-            </Link>
+            {languageLink("en")}
+            {languageLink("es")}
           </div>
           <a
-            className="nav-github"
-            href={socials.github}
-            target="_blank"
-            rel="noopener noreferrer"
+            className="button button-ghost nav-cv"
+            href={cvPath}
+            download="CV_Hugo_Fernandez_Diez.pdf"
           >
-            GitHub <ArrowUpRight size={14} />
+            <Download size={14} aria-hidden="true" /> {t.download}
           </a>
           <button
             className="menu-toggle"
             type="button"
             onClick={() => setOpen(!open)}
-            aria-label={open ? "Close menu" : t.nav.menu}
+            aria-label={open ? t.nav.close : t.nav.menu}
             aria-expanded={open}
           >
-            {open ? <X size={22} /> : <Menu size={22} />}
+            {open ? <X size={20} /> : <Menu size={20} />}
           </button>
         </div>
       </div>

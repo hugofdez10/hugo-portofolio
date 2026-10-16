@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { isLocale, siteUrl } from "@/lib/i18n";
 import "../globals.css";
+import { fontVariables } from "../fonts";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -35,8 +36,16 @@ export default async function LocaleLayout({
   const { lang } = await params;
   if (!isLocale(lang)) notFound();
   return (
-    <html lang={lang}>
-      <body>{children}</body>
+    <html lang={lang} className={fontVariables}>
+      <body>
+        <div className="ambient" aria-hidden="true">
+          <span />
+          <span />
+          <span />
+        </div>
+        <div className="scroll-progress" aria-hidden="true" />
+        {children}
+      </body>
     </html>
   );
 }

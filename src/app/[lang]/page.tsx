@@ -19,12 +19,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     },
     title:
       lang === "en"
-        ? "Hugo Fernández Díez — Software Developer & Computer Engineering"
-        : "Hugo Fernández Díez — Desarrollo de software e Ingeniería Informática",
+        ? "Hugo Fernández Díez — Full-stack Developer & Computer Engineering"
+        : "Hugo Fernández Díez — Desarrollo web full-stack e Ingeniería Informática",
     description:
       lang === "en"
-        ? "Computer Engineering student at Universidad de Deusto building software, digital products and AI-powered tools for real-world needs."
-        : "Estudiante de Ingeniería Informática en la Universidad de Deusto. Creo software, productos digitales y herramientas con IA para necesidades reales.",
+        ? "Computer Engineering student at Universidad de Deusto and full-stack web developer. Two internal apps delivered to Enchanted Parks (USA), used by about 200 workers. Top 3 at the Gipuzkoa AI Hackathon 2026."
+        : "Estudiante de Ingeniería Informática en la Universidad de Deusto y desarrollador web full-stack. Dos apps internas entregadas a Enchanted Parks (EE. UU.), usadas por unos 200 trabajadores. Top 3 en el Gipuzkoa AI Hackathon 2026.",
     openGraph: {
       locale: lang === "en" ? "en_US" : "es_ES",
       url: `${siteUrl}/${lang}`,
@@ -59,7 +59,7 @@ export default async function LocalePage({ params }: Props) {
       name: "Hugo Fernández Díez",
       url: siteUrl,
       inLanguage: ["en", "es"],
-      description: copy[lang].heroTitle,
+      description: copy[lang].role,
     },
   ];
   return (

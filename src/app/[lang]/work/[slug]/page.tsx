@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowLeft, ArrowRight, ArrowUpRight } from "lucide-react";
+import { ArrowLeft, ArrowRight, ArrowUpRight, Lock } from "lucide-react";
 import { Navigation } from "@/components/Navigation";
-import { ProjectVisual } from "@/components/ProjectVisual";
+import { Footer } from "@/components/Footer";
 import { projects } from "@/data/projects";
 import { copy, isLocale, locales, siteUrl } from "@/lib/i18n";
 
@@ -49,65 +50,64 @@ export default async function CasePage({ params }: Props) {
   return (
     <>
       <Navigation locale={lang} path={`/work/${slug}`} />
-      <main className="case-main">
-        <section className="case-hero">
-          <div className="container">
-            <Link className="back-link" href={`/${lang}/#work`}>
-              <ArrowLeft size={15} />
-              {t.back}
-            </Link>
+      <main className="case">
+        <div className="container">
+          <Link className="back-link" href={`/${lang}/#work`}>
+            <ArrowLeft size={15} />
+            {t.back}
+          </Link>
+          <header className="case-hero">
             <span className="eyebrow">
-              <span className="blue-dot" />
-              CASE STUDY / {project.year}
+              {t.caseStudy} · {project.year}
             </span>
             <h1>{project.name}</h1>
             <p>{project.description[lang]}</p>
             <div className="case-meta">
+              <span className="label label-company">{project.label[lang]}</span>
               <span>{project.category[lang]}</span>
               <span>{project.context[lang]}</span>
-              <span>{project.status[lang]}</span>
             </div>
-          </div>
-        </section>
-        <div className="case-visual">
-          <ProjectVisual
-            variant={slug === "housing-management" ? "housing" : "shuttle"}
-            title={project.name}
-            screenshot={
-              project.screenshot && {
-                src: project.screenshot.src,
-                alt: project.screenshot.alt[lang],
-                label: project.screenshot.label[lang],
-              }
-            }
-          />
-        </div>
-        <section className="case-body">
-          <div className="container case-body-grid">
-            <aside className="case-side">
-              <span className="eyebrow">/ {t.tech.toUpperCase()}</span>
-              <div className="tags">
+          </header>
+          {project.screenshot && (
+            <div className="panel case-shot">
+              <Image
+                src={project.screenshot.src}
+                alt={project.screenshot.alt[lang]}
+                width={project.screenshot.width}
+                height={project.screenshot.height}
+                sizes="(max-width: 1100px) 92vw, 1040px"
+                priority
+              />
+            </div>
+          )}
+          <div className="case-grid">
+            <aside className="panel case-side">
+              <span className="eyebrow">{t.tech}</span>
+              <ul className="tags">
                 {project.stack.map((item) => (
-                  <span key={item}>{item}</span>
+                  <li key={item}>{item}</li>
                 ))}
+              </ul>
+              <div className="project-links">
+                {project.url && (
+                  <a
+                    href={project.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {project.urlLabel?.[lang] ?? t.visit}{" "}
+                    <ArrowUpRight size={14} />
+                  </a>
+                )}
+                <span className="muted-link">
+                  <Lock size={13} aria-hidden="true" /> {t.privateRepo}
+                </span>
               </div>
-              {project.url && (
-                <a
-                  className="text-link"
-                  href={project.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  {t.visit} <ArrowUpRight size={16} />
-                </a>
-              )}
             </aside>
             <div className="case-sections">
               {sections.map(([number, heading, body]) => (
                 <section className="case-section" key={number}>
-                  <span>
-                    {number} / {heading.toUpperCase()}
-                  </span>
+                  <span className="case-number">{number}</span>
                   <div>
                     <h2>{heading}</h2>
                     <p>{body}</p>
@@ -116,16 +116,16 @@ export default async function CasePage({ params }: Props) {
               ))}
             </div>
           </div>
-        </section>
-        <section className="case-next">
-          <div className="container">
-            <Link href={`/${lang}/work/${next.slug}`}>
-              <span>{next.name}</span>
-              <ArrowRight size={30} />
-            </Link>
-          </div>
-        </section>
+          <Link className="panel case-next" href={`/${lang}/work/${next.slug}`}>
+            <div>
+              <span className="eyebrow">{t.nextCase}</span>
+              <strong>{next.name}</strong>
+            </div>
+            <ArrowRight size={22} />
+          </Link>
+        </div>
       </main>
+      <Footer locale={lang} />
     </>
   );
 }

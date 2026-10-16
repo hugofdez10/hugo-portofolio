@@ -5,16 +5,18 @@ export type Project = {
   slug: string;
   name: string;
   year: string;
+  /** "company" = delivered to and used by a company; the rest are own or academic work. */
+  kind: "company" | "independent" | "academic";
   category: Localized;
   context: Localized;
   description: Localized;
-  highlights: Record<Locale, string[]>;
   stack: string[];
-  status: Localized;
+  label: Localized;
   url?: string;
-  repository: string;
-  screenshot?: { src: string; alt: Localized; label: Localized };
-  tier: "featured" | "main" | "secondary" | "lab";
+  urlLabel?: Localized;
+  /** Public repository. Omitted for private repositories. */
+  repository?: string;
+  screenshot?: { src: string; width: number; height: number; alt: Localized };
   caseStudy?: {
     challenge: Localized;
     approach: Localized;
@@ -24,60 +26,62 @@ export type Project = {
   };
 };
 
-// Public project repositories verified against github.com/hugofdez10.
+// Content mirrors the 2026 CV. Public repositories verified against github.com/hugofdez10.
 export const projects: Project[] = [
   {
     slug: "housing-management",
-    name: "Housing Management",
+    name: "Housing Management System",
     year: "2026",
-    tier: "featured",
+    kind: "company",
     category: {
-      en: "Housing operations platform",
+      en: "Staff housing platform",
       es: "Plataforma de gestión de alojamiento",
     },
     context: {
-      en: "The Great Escape · New York, USA",
-      es: "The Great Escape · Nueva York, EE. UU.",
+      en: "Enchanted Parks · Queensbury, NY",
+      es: "Enchanted Parks · Queensbury, NY",
     },
     description: {
-      en: "An operational web app built during my work in the United States to bring housing, occupancy, arrivals and incidents into one place for the team.",
-      es: "Una aplicación web operativa creada durante mi trabajo en Estados Unidos para reunir alojamiento, ocupación, llegadas e incidencias en un solo lugar para el equipo.",
+      en: "Housing for 200 residents and 75 cabins: assignments, incidents and occupancy reports.",
+      es: "Gestión de 200 residentes y 75 cabañas: asignaciones, incidencias e informes de ocupación.",
     },
-    highlights: {
-      en: ["Real housing workflows", "Occupancy overview", "Incidents and arrivals"],
-      es: ["Flujos reales de alojamiento", "Vista de ocupación", "Incidencias y llegadas"],
-    },
-    stack: ["Next.js", "React", "Operations"],
-    status: { en: "DEPLOYED TOOL", es: "HERRAMIENTA DESPLEGADA" },
+    stack: [
+      "Next.js",
+      "React",
+      "TypeScript",
+      "Supabase",
+      "PostgreSQL",
+      "Tailwind CSS",
+      "Vercel",
+    ],
+    label: { en: "Delivered to the company", es: "Entregado a la empresa" },
     url: "https://housing-management-system-jade.vercel.app/",
-    repository: "https://github.com/hugofdez10/Housing-Management-System",
+    urlLabel: { en: "Web (account required)", es: "Web (requiere cuenta)" },
     screenshot: {
       src: "/images/housing-management-redacted.png",
+      width: 1746,
+      height: 901,
       alt: {
         en: "Housing Management dashboard with private data redacted",
         es: "Panel de Housing Management con los datos privados ocultos",
       },
-      label: {
-        en: "HOUSING / REAL PRODUCT VIEW",
-        es: "HOUSING / VISTA REAL DEL PRODUCTO",
-      },
     },
     caseStudy: {
       challenge: {
-        en: "Staff housing for a seasonal team means many residents, rooms, arrivals and incidents changing every week. The housing team needed one reliable place to see who lives where and what needs attention.",
-        es: "El alojamiento de un equipo de temporada implica muchos residentes, habitaciones, llegadas e incidencias que cambian cada semana. El equipo de housing necesitaba un único lugar fiable para ver quién vive dónde y qué requiere atención.",
+        en: "Seasonal staff housing means 200 residents and 75 cabins with arrivals, moves and incidents changing every week. The Housing team was tracking it by hand and needed one reliable place to see who lives where and what needs attention.",
+        es: "El alojamiento de personal de temporada supone 200 residentes y 75 cabañas con llegadas, mudanzas e incidencias que cambian cada semana. El equipo de Housing lo llevaba a mano y necesitaba un único lugar fiable para ver quién vive dónde y qué requiere atención.",
       },
       approach: {
-        en: "I worked as a Resident Assistant at the same time, so I designed the app around the real daily workflow of the housing team: occupancy first, then residents, assignments and issues.",
-        es: "Al trabajar a la vez como Resident Assistant, diseñé la app alrededor del flujo diario real del equipo de housing: primero la ocupación y después residentes, asignaciones e incidencias.",
+        en: "I spotted the problem while working as a Resident Assistant and proposed solving it with our own software. Requirements came from weekly meetings with the people in charge, and I designed the data first: tables, relationships, roles and permissions.",
+        es: "Detecté el problema mientras trabajaba como Resident Assistant y propuse resolverlo con software propio. Los requisitos salieron de reuniones semanales con los responsables y diseñé primero los datos: tablas, relaciones, roles y permisos.",
       },
       build: {
-        en: "Built with Next.js, TypeScript, Tailwind CSS and shadcn/ui on top of Supabase and PostgreSQL, deployed on Vercel and delivered in iterative releases with progress reports.",
-        es: "Construida con Next.js, TypeScript, Tailwind CSS y shadcn/ui sobre Supabase y PostgreSQL, desplegada en Vercel y entregada en versiones iterativas con informes de progreso.",
+        en: "Built with AI-assisted development (Claude Code, Codex) on Next.js, TypeScript and Tailwind CSS over Supabase and PostgreSQL, deployed on Vercel. I directed the architecture, reviewed the output and tested each version by hand before release.",
+        es: "Construida con desarrollo asistido por IA (Claude Code, Codex) sobre Next.js, TypeScript y Tailwind CSS con Supabase y PostgreSQL, desplegada en Vercel. Dirigí la arquitectura, revisé el resultado y probé cada versión a mano antes de publicarla.",
       },
       outcome: {
-        en: "A deployed internal tool that gives the housing team an occupancy overview and a clear record of arrivals and incidents in one place.",
-        es: "Una herramienta interna desplegada que da al equipo de housing una vista de ocupación y un registro claro de llegadas e incidencias en un solo lugar.",
+        en: "Delivered to the company together with Walmart Shuttle in about a month. Housing management now handles assignments, moves, incidents with photos and occupancy reports in a single tool.",
+        es: "Entregada a la empresa junto a Walmart Shuttle en aproximadamente un mes. La dirección de Housing gestiona ahora asignaciones, mudanzas, incidencias con fotos e informes de ocupación en una sola herramienta.",
       },
       lessons: {
         en: "Building next to the people who use the tool makes priorities obvious. Short release cycles and real feedback mattered more than adding features.",
@@ -87,45 +91,40 @@ export const projects: Project[] = [
   },
   {
     slug: "walmart-shuttle",
-    name: "Walmart Shuttle",
+    name: "W&T Walmart Shuttle",
     year: "2026",
-    tier: "featured",
+    kind: "company",
     category: {
-      en: "Shuttle reservation tool",
-      es: "Herramienta de reservas de lanzadera",
+      en: "Shuttle booking system",
+      es: "Sistema de reservas de transporte",
     },
     context: {
-      en: "The Great Escape · New York, USA",
-      es: "The Great Escape · Nueva York, EE. UU.",
+      en: "Enchanted Parks · Queensbury, NY",
+      es: "Enchanted Parks · Queensbury, NY",
     },
     description: {
-      en: "A deployed booking tool for Walmart shuttle trips. When departures are scheduled, international staff can check pickup points and reserve a seat before the van leaves.",
-      es: "Una herramienta de reservas desplegada para los viajes en lanzadera a Walmart. Cuando se programan salidas, el personal internacional puede consultar los puntos de recogida y reservar plaza antes de que salga la furgoneta.",
+      en: "Shuttle bookings used by about 200 workers, replacing WhatsApp.",
+      es: "Reservas de transporte que usan unos 200 trabajadores, en lugar de WhatsApp.",
     },
-    highlights: {
-      en: ["Seasonal reservations", "Seats by group", "Pickup information"],
-      es: ["Reservas por temporada", "Plazas por grupo", "Información de recogida"],
-    },
-    stack: ["Next.js", "React", "Booking systems"],
-    status: { en: "DEPLOYED TOOL", es: "HERRAMIENTA DESPLEGADA" },
+    stack: ["Next.js", "React", "TypeScript", "Supabase", "Tailwind", "Vercel"],
+    label: { en: "Delivered to the company", es: "Entregado a la empresa" },
     url: "https://walmart-shuttle.vercel.app/",
-    repository: "https://github.com/hugofdez10/walmart-shuttle",
     caseStudy: {
       challenge: {
-        en: "Staff living in company housing depend on a van to get to Walmart. The housing supervisor needed a simple way to organise trips and seats instead of coordinating everything by message.",
-        es: "El personal que vive en el alojamiento de la empresa depende de una furgoneta para ir a Walmart. El supervisor de housing necesitaba una forma sencilla de organizar viajes y plazas en lugar de coordinarlo todo por mensajes.",
+        en: "Around 200 international workers depend on a weekly van to get to Walmart. Trips and seats were coordinated through WhatsApp, which meant overbooked vans, missed messages and a lot of manual work for the supervisor.",
+        es: "Unos 200 trabajadores internacionales dependen de una furgoneta semanal para ir a Walmart. Los viajes y las plazas se coordinaban por WhatsApp, lo que suponía furgonetas llenas de más, mensajes perdidos y mucho trabajo manual para el supervisor.",
       },
       approach: {
-        en: "I kept the flow as short as possible: see the next departures, pick a seat, check where the pickup is. The supervisor controls the trips and capacity.",
-        es: "Mantuve el flujo lo más corto posible: ver las próximas salidas, elegir plaza y consultar el punto de recogida. El supervisor controla los viajes y la capacidad.",
+        en: "I kept the flow as short as possible: see the next departures, pick a seat, check the pickup point. The supervisor controls shifts, capacity and passenger limits from an admin panel.",
+        es: "Mantuve el flujo lo más corto posible: ver las próximas salidas, elegir plaza y consultar el punto de recogida. El supervisor controla turnos, capacidad y límite de pasajeros desde un panel de administración.",
       },
       build: {
-        en: "A Next.js and React web app deployed on Vercel, designed mobile-first so residents can book from their phones.",
-        es: "Una aplicación web con Next.js y React desplegada en Vercel, pensada primero para móvil para que los residentes reserven desde el teléfono.",
+        en: "A mobile-first Next.js and TypeScript app on Supabase, deployed on Vercel, built with AI-assisted development and tested manually before every release.",
+        es: "Una app con Next.js y TypeScript sobre Supabase, pensada primero para móvil y desplegada en Vercel, construida con desarrollo asistido por IA y probada a mano antes de cada versión.",
       },
       outcome: {
-        en: "A deployed booking tool that turns shuttle trips into scheduled departures with assigned seats and clear pickup information.",
-        es: "Una herramienta de reservas desplegada que convierte los viajes en lanzadera en salidas programadas con plazas asignadas e información de recogida clara.",
+        en: "It replaced WhatsApp coordination for about 200 workers. Its adoption turned into a paid developer role at the company.",
+        es: "Sustituyó la coordinación por WhatsApp para unos 200 trabajadores. Su adopción dio lugar a un puesto remunerado de desarrollador en la empresa.",
       },
       lessons: {
         en: "Small tools that remove daily friction get adopted fastest. Clear information at the right moment matters more than complex features.",
@@ -134,97 +133,100 @@ export const projects: Project[] = [
     },
   },
   {
-    slug: "hugos-productivity",
-    name: "Hugo's Productivity",
+    slug: "gestidomus",
+    name: "GestiDomus",
     year: "2026",
-    tier: "main",
+    kind: "independent",
     category: {
-      en: "Personal productivity PWA",
-      es: "PWA de productividad personal",
+      en: "Property management SaaS",
+      es: "SaaS de gestión inmobiliaria",
     },
     context: { en: "Independent project", es: "Proyecto propio" },
     description: {
-      en: "An installable app for tasks, routines, calendars and reminders, with local storage, Supabase sync and background push notifications.",
-      es: "Una app instalable para organizar tareas, rutinas, calendario y recordatorios, con almacenamiento local, sincronización con Supabase y notificaciones push en segundo plano.",
+      en: "Rental property management: properties, contracts, payments, incidents, PDF receipts, metrics and document storage.",
+      es: "Administración de propiedades en alquiler: inmuebles, contratos, pagos, incidencias, recibos en PDF, métricas y almacenamiento documental.",
     },
-    highlights: {
-      en: ["Installable PWA", "Cloud sync", "Push reminders"],
-      es: ["PWA instalable", "Sincronización en la nube", "Recordatorios push"],
-    },
-    stack: ["JavaScript", "HTML", "CSS", "PWA", "Supabase", "PostgreSQL"],
-    status: { en: "PERSONAL APP", es: "APP PERSONAL" },
-    url: "https://hugos-productivity.vercel.app",
-    repository: "https://github.com/hugofdez10/HugosProductivity",
+    stack: [
+      "Next.js",
+      "React",
+      "TypeScript",
+      "Supabase",
+      "PostgreSQL",
+      "Vercel",
+    ],
+    label: { en: "SaaS", es: "SaaS" },
+    url: "https://gestidomus-os.vercel.app/dashboard",
+    urlLabel: { en: "Demo", es: "Demo" },
   },
   {
     slug: "samoset-barbershop",
     name: "Samoset Barbershop",
     year: "2026",
-    tier: "main",
-    category: { en: "Barbershop website", es: "Web de barbería" },
-    context: { en: "Business website", es: "Web para negocio" },
+    kind: "independent",
+    category: { en: "Local business website", es: "Web para negocio local" },
+    context: { en: "Samoset, NY", es: "Samoset, NY" },
     description: {
-      en: "A responsive landing page presenting services, pricing and work through optimized videos, with booking links to WhatsApp.",
-      es: "Una landing adaptable para presentar servicios, precios y trabajos mediante vídeos optimizados, con reservas directamente por WhatsApp.",
+      en: "Website for a barbershop: services and videos of their work, WhatsApp booking and an appointment admin panel.",
+      es: "Web de una barbería: servicios y vídeos de trabajos, reservas por WhatsApp y panel de administración de citas.",
     },
-    highlights: {
-      en: ["Responsive design", "Optimized videos", "WhatsApp booking"],
-      es: ["Diseño adaptable", "Vídeos optimizados", "Reservas por WhatsApp"],
-    },
-    stack: ["Next.js", "React", "TypeScript", "Tailwind CSS"],
-    status: { en: "BUSINESS WEBSITE", es: "WEB DE NEGOCIO" },
+    stack: ["Next.js", "React", "TypeScript", "Supabase", "Tailwind", "Vercel"],
+    label: { en: "Web", es: "Web" },
+    url: "https://samosetbarbershop.vercel.app/",
     repository: "https://github.com/hugofdez10/samoset-barbershop",
+  },
+  {
+    slug: "hugos-productivity",
+    name: "HugosProductivity",
+    year: "2026",
+    kind: "independent",
+    category: { en: "Personal PWA", es: "PWA personal" },
+    context: { en: "Independent project", es: "Proyecto propio" },
+    description: {
+      en: "Tasks, routines, calendar and reminders with Supabase sync and push notifications through a Service Worker.",
+      es: "Tareas, rutinas, calendario y recordatorios con sincronización en Supabase y notificaciones push mediante Service Worker.",
+    },
+    stack: [
+      "HTML",
+      "CSS",
+      "JavaScript",
+      "Supabase",
+      "Service Worker",
+      "Vercel",
+    ],
+    label: { en: "PWA", es: "PWA" },
+    repository: "https://github.com/hugofdez10/HugosProductivity",
   },
   {
     slug: "deustoair",
     name: "DeustoAir",
     year: "2026",
-    tier: "main",
-    category: {
-      en: "Air quality · client–server",
-      es: "Calidad del aire · cliente-servidor",
-    },
-    context: {
-      en: "Universidad de Deusto · academic fork",
-      es: "Universidad de Deusto · fork académico",
-    },
+    kind: "academic",
+    category: { en: "Team project", es: "Proyecto en equipo" },
+    context: { en: "Universidad de Deusto", es: "Universidad de Deusto" },
     description: {
-      en: "A Programming IV project in development for managing and querying air-quality data. Its planned architecture combines C administration and server modules, a C++ client and SQLite.",
-      es: "Proyecto de Programación IV en desarrollo para gestionar y consultar datos de calidad del aire. Su arquitectura prevista combina administración y servidor en C, cliente en C++ y SQLite.",
+      en: "Air-quality data management and querying with a client–server architecture: users, measurements and a modular structure.",
+      es: "Gestión y consulta de datos de calidad del aire con arquitectura cliente-servidor: usuarios, mediciones y organización modular.",
     },
-    highlights: {
-      en: ["Academic collaboration", "Client–server architecture"],
-      es: ["Colaboración académica", "Arquitectura cliente-servidor"],
-    },
-    stack: ["C", "C++", "SQLite", "TCP/IP"],
-    status: { en: "IN DEVELOPMENT", es: "EN DESARROLLO" },
+    stack: ["C", "C++", "SQLite"],
+    label: { en: "Academic", es: "Académico" },
     repository: "https://github.com/hugofdez10/DeustoAir",
   },
   {
     slug: "deustochess",
     name: "DeustoChess",
     year: "2025",
-    tier: "main",
-    category: { en: "Chess · Java", es: "Ajedrez · Java" },
-    context: { en: "University project", es: "Proyecto universitario" },
-    description: {
-      en: "A Java chess project with its source code available on GitHub, developed in an Eclipse project structure.",
-      es: "Un proyecto de ajedrez en Java con el código fuente disponible en GitHub y una estructura de proyecto para Eclipse.",
+    kind: "academic",
+    category: {
+      en: "Object-oriented programming",
+      es: "Programación orientada a objetos",
     },
-    highlights: { en: ["Java source code"], es: ["Código fuente en Java"] },
-    stack: ["Java", "Eclipse"],
-    status: { en: "UNIVERSITY", es: "UNIVERSIDAD" },
+    context: { en: "Universidad de Deusto", es: "Universidad de Deusto" },
+    description: {
+      en: "Chess in Java focused on OOP: modelling pieces and board, and the movement logic.",
+      es: "Ajedrez en Java centrado en POO: modelado de piezas y tablero y lógica de movimientos.",
+    },
+    stack: ["Java"],
+    label: { en: "Academic", es: "Académico" },
     repository: "https://github.com/hugofdez10/DeustoChess",
   },
 ];
-
-export const featuredProjects = projects.filter(
-  (project) => project.tier === "featured",
-);
-export const mainProjects = projects.filter(
-  (project) => project.tier === "main",
-);
-export const secondaryProjects = projects.filter(
-  (project) => project.tier === "secondary",
-);
-export const labProjects = projects.filter((project) => project.tier === "lab");

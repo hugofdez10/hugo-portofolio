@@ -1,4 +1,5 @@
 import "./globals.css";
+import { fontVariables } from "./fonts";
 import Link from "next/link";
 import type { Metadata } from "next";
 import { siteUrl } from "@/lib/i18n";
@@ -8,7 +9,7 @@ export const metadata: Metadata = {
 };
 export default function GlobalNotFound() {
   return (
-    <html lang="en">
+    <html lang="en" className={fontVariables}>
       <body>
         <main className="not-found">
           <div className="container">

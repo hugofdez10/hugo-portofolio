@@ -7,7 +7,7 @@ export default function Image() {
       style={{
         width: "100%",
         height: "100%",
-        background: "#090b10",
+        background: "#061019",
         color: "#f4f6f8",
         padding: 74,
         display: "flex",
@@ -22,7 +22,7 @@ export default function Image() {
           justifyContent: "space-between",
           alignItems: "center",
           fontSize: 24,
-          color: "#93b4ff",
+          color: "#79aefc",
         }}
       >
         <span>HF.</span>
@@ -47,15 +47,15 @@ export default function Image() {
             letterSpacing: -5,
           }}
         >
-          FERNÁNDEZ DÍEZ<span style={{ color: "#5c8fff" }}>.</span>
+          FERNÁNDEZ DÍEZ<span style={{ color: "#79aefc" }}>.</span>
         </span>
         <span style={{ fontSize: 25, color: "#aebbd4", marginTop: 30 }}>
-          Software · Product · AI
+          Computer Engineering · Full-stack web development
         </span>
       </div>
       <div
         style={{
-          borderTop: "1px solid #344158",
+          borderTop: "1px solid #1d2d3d",
           paddingTop: 22,
           display: "flex",
           justifyContent: "space-between",
@@ -63,7 +63,7 @@ export default function Image() {
           fontSize: 18,
         }}
       >
-        <span>Building useful things.</span>
+        <span>Available for development internships.</span>
         <span>github.com/hugofdez10</span>
       </div>
     </div>,
