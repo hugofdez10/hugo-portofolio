@@ -11,6 +11,7 @@ import { cvPath, socials } from "@/data/socials";
 import { Navigation } from "./Navigation";
 import { Footer } from "./Footer";
 import { Motion } from "./Motion";
+import { CinematicCore } from "./CinematicCore";
 
 const external = { target: "_blank", rel: "noopener noreferrer" } as const;
 /** Stagger index consumed by the CSS animations. */
@@ -74,48 +75,73 @@ export function Portfolio({ locale }: { locale: Locale }) {
       <Navigation locale={locale} />
       <Motion />
       <main>
-        <section className="hero container" id="top">
-          <span className="availability intro" style={order(0)}>
-            <span className="status-dot" />
-            {t.availability}
-          </span>
-          <h1 aria-label="Hugo Fernández Díez">
-            {["Hugo", "Fernández", "Díez"].map((word, index) => (
-              <span className="word" key={word} aria-hidden="true">
-                <span style={order(index + 1)}>{word}</span>
+        <section className="cinematic-hero" id="top">
+          <div className="cinematic-hero-visual"><CinematicCore /></div>
+          <div className="container cinematic-hero-inner">
+            <div className="cinematic-hero-meta">
+              <span>HF® / PORTFOLIO — 2026</span>
+              <span>{locale === "es" ? "INGENIERÍA CREATIVA" : "CREATIVE ENGINEERING"}</span>
+            </div>
+            <div className="cinematic-hero-copy">
+              <span className="cinematic-overline">
+                <span className="cinematic-live-dot" /> {t.availability}
               </span>
-            ))}
-          </h1>
-          <p className="hero-role intro" style={order(4)}>
-            {t.role}
-          </p>
-          <p className="hero-body intro" style={order(5)}>
-            {t.heroBody}
-          </p>
-          <div className="hero-actions intro" style={order(6)}>
-            <Link href={`/${locale}/#work`} className="button button-light">
-              {t.explore} <ArrowRight size={16} />
-            </Link>
-            <Link href={`/${locale}/#contact`} className="button button-ghost">
-              {t.contactCta}
-            </Link>
-          </div>
-          <dl className="metrics intro" style={order(7)} data-reveal>
-            {t.metrics.map(([value, label]) => (
-              <div key={label}>
-                <dt data-count={value}>{value}</dt>
-                <dd>{label}</dd>
+              <h1 aria-label="Hugo Fernández Díez">
+                <span>BEYOND</span>
+                <span>THE <em>INTERFACE.</em></span>
+              </h1>
+              <div className="cinematic-hero-bottom">
+                <div>
+                  <p className="cinematic-name">HUGO FERNÁNDEZ DÍEZ <span>/ FULL-STACK & AI</span></p>
+                  <p className="cinematic-description">
+                    {locale === "es"
+                      ? "Convierto problemas reales en productos digitales. Desarrollo software, diseño experiencias y experimento con inteligencia artificial."
+                      : "I turn real problems into digital products. I build software, design experiences and experiment with artificial intelligence."}
+                  </p>
+                </div>
+                <div className="cinematic-hero-actions">
+                  <Link className="cinematic-primary-link" href={`/${locale}/#work`}>
+                    {t.explore} <ArrowUpRight size={19} />
+                  </Link>
+                  <Link className="cinematic-secondary-link" href={`/${locale}/#contact`}>
+                    {t.contactCta} <ArrowRight size={17} />
+                  </Link>
+                </div>
               </div>
-            ))}
-          </dl>
+            </div>
+            <div className="cinematic-hero-footer">
+              <span>01 / 07 — THE AWAKENING</span>
+              <span>{locale === "es" ? "DESLIZA PARA EXPLORAR ↓" : "SCROLL TO EXPLORE ↓"}</span>
+            </div>
+          </div>
         </section>
 
-        <section className="section container" id="work">
+        <section className="cinematic-proof" aria-label={locale === "es" ? "Resultados" : "Results"}>
+          <div className="container">
+            <div className="cinematic-section-kicker"><span>02 / THE PROOF</span><span>EST. 2026</span></div>
+            <p className="cinematic-proof-intro">
+              {locale === "es" ? "NO SOLO IDEAS." : "NOT JUST IDEAS."}
+              <strong>{locale === "es" ? " PRODUCTOS REALES." : " REAL PRODUCTS."}</strong>
+            </p>
+            <dl className="cinematic-metrics" data-reveal>
+              {t.metrics.map(([value, label], index) => (
+                <div className="cinematic-metric" key={label}>
+                  <span className="cinematic-metric-index">0{index + 1}</span>
+                  <dt data-count={value}>{value}</dt>
+                  <dd>{label}</dd>
+                </div>
+              ))}
+            </dl>
+          </div>
+        </section>
+
+        <section className="section container cinematic-work" id="work">
+          <div className="cinematic-section-kicker"><span>03 / SELECTED WORK</span><span>{locale === "es" ? "PROYECTOS / IMPACTO" : "PROJECTS / IMPACT"}</span></div>
           <SectionHead eyebrow={t.workEyebrow} title={t.workTitle} />
           <div className="featured">
             {featured.map((project, index) => (
               <article
-                className="panel card"
+                className="panel card cinematic-project-card"
                 key={project.slug}
                 data-reveal
                 style={order(index)}
@@ -123,6 +149,12 @@ export function Portfolio({ locale }: { locale: Locale }) {
                 <span className="label label-company">
                   {project.label[locale]}
                 </span>
+                <span className="cinematic-project-number">PROJECT / 0{index + 1}</span>
+                <div className={`cinematic-project-art cinematic-project-art-${index + 1}`} aria-hidden="true">
+                  <span className="cinematic-project-orbit" />
+                  <span className="cinematic-project-symbol">{index === 0 ? "H" : "W"}</span>
+                  <span className="cinematic-project-art-meta">{index === 0 ? "75 CABINS / 200 RESIDENTS" : "TRANSPORT / 200 USERS"}</span>
+                </div>
                 <h3>{project.name}</h3>
                 <p>{project.description[locale]}</p>
                 <p className="card-stack">
