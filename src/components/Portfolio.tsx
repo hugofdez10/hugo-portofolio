@@ -12,6 +12,9 @@ import { Navigation } from "./Navigation";
 import { Footer } from "./Footer";
 import { Motion } from "./Motion";
 import { CinematicCore } from "./CinematicCore";
+import { ParticleField } from "./ParticleField";
+import { ProjectVisual } from "./ProjectVisual";
+import { CommandPalette } from "./CommandPalette";
 
 const external = { target: "_blank", rel: "noopener noreferrer" } as const;
 /** Stagger index consumed by the CSS animations. */
@@ -74,9 +77,10 @@ export function Portfolio({ locale }: { locale: Locale }) {
     <>
       <Navigation locale={locale} />
       <Motion />
+      <CommandPalette locale={locale} />
       <main>
         <section className="cinematic-hero" id="top">
-          <div className="cinematic-hero-visual"><CinematicCore /></div>
+          <div className="cinematic-hero-visual"><CinematicCore /><ParticleField /></div>
           <div className="container cinematic-hero-inner">
             <div className="cinematic-hero-meta">
               <span>HF® / PORTFOLIO — 2026</span>
@@ -146,31 +150,30 @@ export function Portfolio({ locale }: { locale: Locale }) {
                 data-reveal
                 style={order(index)}
               >
-                <span className="label label-company">
-                  {project.label[locale]}
-                </span>
-                <span className="cinematic-project-number">PROJECT / 0{index + 1}</span>
-                <div className={`cinematic-project-art cinematic-project-art-${index + 1}`} aria-hidden="true">
-                  <span className="cinematic-project-orbit" />
-                  <span className="cinematic-project-symbol">{index === 0 ? "H" : "W"}</span>
-                  <span className="cinematic-project-art-meta">{index === 0 ? "75 CABINS / 200 RESIDENTS" : "TRANSPORT / 200 USERS"}</span>
-                </div>
-                <h3>{project.name}</h3>
-                <p>{project.description[locale]}</p>
-                <p className="card-stack">
-                  {project.stack.slice(0, 3).join(" · ")}
-                </p>
-                <div className="links">
-                  {project.caseStudy && (
-                    <Link href={`/${locale}/work/${project.slug}`}>
-                      {t.caseStudy} <ArrowRight size={14} />
-                    </Link>
-                  )}
-                  {project.url && (
-                    <a href={project.url} {...external}>
-                      {t.visit} <ArrowUpRight size={14} />
-                    </a>
-                  )}
+                <ProjectVisual variant={index === 0 ? "housing" : "shuttle"} />
+                <div className="cinematic-project-content">
+                  <div className="cinematic-project-topline">
+                    <span className="label label-company">{project.label[locale]}</span>
+                    <span className="cinematic-project-number">PROJECT / 0{index + 1}</span>
+                  </div>
+                  <div className="cinematic-project-copy">
+                    <span className="cinematic-project-kicker">{project.category[locale]} / {project.year}</span>
+                    <h3>{project.name}</h3>
+                    <p>{project.description[locale]}</p>
+                    <p className="card-stack">{project.stack.slice(0, 4).join(" · ")}</p>
+                  </div>
+                  <div className="links">
+                    {project.caseStudy && (
+                      <Link href={`/${locale}/work/${project.slug}`}>
+                        {t.caseStudy} <ArrowRight size={16} />
+                      </Link>
+                    )}
+                    {project.url && (
+                      <a href={project.url} {...external}>
+                        {t.visit} <ArrowUpRight size={16} />
+                      </a>
+                    )}
+                  </div>
                 </div>
               </article>
             ))}

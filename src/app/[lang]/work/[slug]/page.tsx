@@ -4,6 +4,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, ArrowRight, ArrowUpRight, Lock } from "lucide-react";
 import { Navigation } from "@/components/Navigation";
+import { CommandPalette } from "@/components/CommandPalette";
 import { Footer } from "@/components/Footer";
 import { projects } from "@/data/projects";
 import { copy, isLocale, locales, siteUrl } from "@/lib/i18n";
@@ -50,6 +51,7 @@ export default async function CasePage({ params }: Props) {
   return (
     <>
       <Navigation locale={lang} path={`/work/${slug}`} />
+      <CommandPalette locale={lang} />
       <main className="case">
         <div className="container">
           <Link className="back-link" href={`/${lang}/#work`}>
