@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Download, Menu, Search, X } from "lucide-react";
 import { copy, type Locale } from "@/lib/i18n";
 import { cvPath } from "@/data/socials";
+import { ExperienceControls } from "./ExperienceControls";
 
 export function Navigation({
   locale,
@@ -50,6 +51,7 @@ export function Navigation({
   const links = [
     ["work", t.nav.work],
     ["hackathons", t.nav.hackathons],
+    ["lab", locale === "es" ? "Laboratorio" : "Lab"],
     ["experience", t.nav.experience],
     ["contact", t.nav.contact],
   ];
@@ -94,6 +96,7 @@ export function Navigation({
           ))}
         </nav>
         <div className="nav-actions">
+          <ExperienceControls locale={locale} />
           <button
             type="button"
             className="command-trigger"
