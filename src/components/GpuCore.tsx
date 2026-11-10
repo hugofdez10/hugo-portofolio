@@ -89,6 +89,17 @@ void main() {
   float mobile = clamp(uMobile, 0.0, 1.0);
   vec2 center = mix(vec2(0.74, 0.52), vec2(0.79, 0.68), mobile);
   vec2 uv = (gl_FragCoord.xy - uResolution * center) / min(uResolution.x, uResolution.y) * 2.32;
+  float distanceFromCenter = length(uv);
+  float halo = exp(-distanceFromCenter * distanceFromCenter * 2.25) * 0.17;
+  float fade = 1.0 - smoothstep(0.28, 0.99, uScroll);
+
+  // The sculpture is confined to this region. Skip expensive distance-field
+  // marching for the vast majority of empty background pixels.
+  if (distanceFromCenter > 1.48) {
+    outputColor = vec4(vec3(0.06, 0.42, 0.68) * halo, halo * 0.62 * fade);
+    return;
+  }
+
   vec3 ro = vec3(0.0, 0.0, 3.55 + uScroll * 0.65);
   vec3 rd = normalize(vec3(uv, -2.62));
 
@@ -103,8 +114,6 @@ void main() {
     if (travel > 8.0) break;
   }
 
-  float distanceFromCenter = length(uv);
-  float halo = exp(-distanceFromCenter * distanceFromCenter * 2.25) * 0.17;
   vec3 lightColor = vec3(0.06, 0.42, 0.68);
   vec3 color = lightColor * halo;
   float alpha = halo * 0.62;
@@ -133,7 +142,6 @@ void main() {
     alpha = 1.0;
   }
 
-  float fade = 1.0 - smoothstep(0.28, 0.99, uScroll);
   outputColor = vec4(color, alpha * fade);
 }
 `;
