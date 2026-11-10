@@ -8,8 +8,9 @@ const chapters = [
   { id: "proof", number: "02", en: "Impact", es: "Impacto" },
   { id: "work", number: "03", en: "Work", es: "Proyectos" },
   { id: "hackathons", number: "04", en: "Intelligence", es: "Inteligencia" },
-  { id: "experience", number: "05", en: "Journey", es: "Trayectoria" },
-  { id: "contact", number: "06", en: "Contact", es: "Contacto" },
+  { id: "lab", number: "05", en: "Lab", es: "Laboratorio" },
+  { id: "experience", number: "06", en: "Journey", es: "Trayectoria" },
+  { id: "contact", number: "07", en: "Contact", es: "Contacto" },
 ];
 
 export function ChapterRail({ locale }: { locale: Locale }) {
