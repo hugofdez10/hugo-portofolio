@@ -169,6 +169,7 @@ export function GpuCore() {
     const hero = canvas?.closest<HTMLElement>(".cinematic-hero");
     if (!canvas || !visual || !hero) return;
     if (
+      window.matchMedia("(max-width: 760px)").matches ||
       window.matchMedia("(prefers-reduced-motion: reduce)").matches ||
       window.matchMedia("(prefers-reduced-data: reduce)").matches
     ) return;
