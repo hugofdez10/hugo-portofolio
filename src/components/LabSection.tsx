@@ -9,7 +9,6 @@ import {
   Boxes,
   TerminalSquare,
   Grid2X2,
-  Layers3,
 } from "lucide-react";
 import { projects } from "@/data/projects";
 import type { Locale } from "@/lib/i18n";
