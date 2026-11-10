@@ -39,7 +39,7 @@ export function JourneySection({ locale }: { locale: Locale }) {
         <div className="journey-body">
           <div className="journey-body-label">
             <span className="journey-body-index">PATH / 001</span>
-            <h3>{es ? "UNA TRAYECTORIA<br/>EN CONSTRUCCIÓN" : "A STORY STILL<br/>UNFOLDING"}</h3>
+            <h3>{es ? <>UNA TRAYECTORIA<br/>EN CONSTRUCCIÓN</> : <>A STORY STILL<br/>UNFOLDING</>}</h3>
             <p>{es ? "Cada experiencia cambia la forma en la que construyo." : "Every experience changes the way I build."}</p>
           </div>
           <div className="journey-timeline">
