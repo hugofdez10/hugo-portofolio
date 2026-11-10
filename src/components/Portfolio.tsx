@@ -3,11 +3,7 @@ import Link from "next/link";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { copy, type Locale } from "@/lib/i18n";
 import { projects } from "@/data/projects";
-import { experience } from "@/data/experience";
-import { education } from "@/data/education";
 import { gipuzkoa360 } from "@/data/hackathons";
-import { stack } from "@/data/stack";
-import { cvPath, socials } from "@/data/socials";
 import { Navigation } from "./Navigation";
 import { Footer } from "./Footer";
 import { Motion } from "./Motion";
@@ -15,6 +11,9 @@ import { CinematicCore } from "./CinematicCore";
 import { GpuCore } from "./GpuCore";
 import { IntelligenceVisual } from "./IntelligenceVisual";
 import { ChapterRail } from "./ChapterRail";
+import { LabSection } from "./LabSection";
+import { JourneySection } from "./JourneySection";
+import { FinaleSection } from "./FinaleSection";
 import { ParticleField } from "./ParticleField";
 import { ProjectVisual } from "./ProjectVisual";
 import { CommandPalette } from "./CommandPalette";
@@ -32,50 +31,9 @@ function SectionHead({ eyebrow, title }: { eyebrow: string; title: string }) {
   );
 }
 
-function Rows({
-  items,
-}: {
-  items: {
-    key: string;
-    name: string;
-    meta: string;
-    end: string;
-    href?: string;
-  }[];
-}) {
-  return (
-    <ul className="rows" data-reveal>
-      {items.map((item, index) => {
-        const content = (
-          <>
-            <span className="row-name">{item.name}</span>
-            <span className="row-meta">{item.meta}</span>
-            <span className="row-end">
-              {item.end}
-              {item.href && <ArrowUpRight size={14} />}
-            </span>
-          </>
-        );
-        return (
-          <li key={item.key} style={order(index)}>
-            {item.href ? (
-              <a href={item.href} {...external}>
-                {content}
-              </a>
-            ) : (
-              <div>{content}</div>
-            )}
-          </li>
-        );
-      })}
-    </ul>
-  );
-}
-
 export function Portfolio({ locale }: { locale: Locale }) {
   const t = copy[locale];
   const featured = projects.filter((p) => p.kind === "company");
-  const more = projects.filter((p) => p.kind !== "company");
   return (
     <>
       <Navigation locale={locale} />
@@ -187,18 +145,6 @@ export function Portfolio({ locale }: { locale: Locale }) {
               </article>
             ))}
           </div>
-          <h3 className="list-title" data-reveal>
-            {t.more}
-          </h3>
-          <Rows
-            items={more.map((project) => ({
-              key: project.slug,
-              name: project.name,
-              meta: project.category[locale],
-              end: project.year,
-              href: project.url ?? project.repository,
-            }))}
-          />
         </section>
 
         <section className="cinematic-intelligence" id="hackathons">
@@ -235,57 +181,9 @@ export function Portfolio({ locale }: { locale: Locale }) {
           </div>
         </section>
 
-        <section className="section container" id="experience">
-          <SectionHead
-            eyebrow={t.experienceEyebrow}
-            title={t.experienceTitle}
-          />
-          <Rows
-            items={experience.map((item) => ({
-              key: item.title.en,
-              name: item.title[locale],
-              meta: item.place[locale],
-              end: item.period[locale],
-            }))}
-          />
-          <h3 className="list-title" data-reveal>
-            {t.education}
-          </h3>
-          <Rows
-            items={education.map((item) => ({
-              key: item.title.en,
-              name: item.title[locale],
-              meta: item.place[locale],
-              end: item.period,
-            }))}
-          />
-          <h3 className="list-title" data-reveal>
-            {t.stackLabel}
-          </h3>
-          <ul className="stack-line" data-reveal>
-            {stack.map((item, index) => (
-              <li key={item} style={order(index)}>
-                {item}
-              </li>
-            ))}
-          </ul>
-        </section>
-
-        <section className="section container contact" id="contact">
-          <div data-reveal>
-            <span className="eyebrow">{t.contactEyebrow}</span>
-            <h2>{t.contactTitle}</h2>
-            <p>{t.contactBody}</p>
-            <div className="hero-actions">
-              <a className="button button-light" href={socials.email}>
-                {t.email} <ArrowRight size={16} />
-              </a>
-              <a className="button button-ghost" href={cvPath} {...external}>
-                {t.download} <ArrowUpRight size={16} />
-              </a>
-            </div>
-          </div>
-        </section>
+        <LabSection locale={locale} />
+        <JourneySection locale={locale} />
+        <FinaleSection locale={locale} />
       </main>
       <Footer locale={locale} />
     </>
