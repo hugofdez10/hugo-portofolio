@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { Download, Menu, X } from "lucide-react";
+import { Download, Menu, Search, X } from "lucide-react";
 import { copy, type Locale } from "@/lib/i18n";
 import { cvPath } from "@/data/socials";
 
@@ -94,6 +94,16 @@ export function Navigation({
           ))}
         </nav>
         <div className="nav-actions">
+          <button
+            type="button"
+            className="command-trigger"
+            onClick={() => window.dispatchEvent(new Event("hf:command"))}
+            aria-label={locale === "es" ? "Abrir búsqueda y comandos" : "Open search and commands"}
+            title={locale === "es" ? "Buscar (Ctrl+K)" : "Search (Ctrl+K)"}
+          >
+            <Search size={14} aria-hidden="true" />
+            <span>CTRL K</span>
+          </button>
           <div className="lang-switch" aria-label="Language">
             {languageLink("en")}
             {languageLink("es")}
