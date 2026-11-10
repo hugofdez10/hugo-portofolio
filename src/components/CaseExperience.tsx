@@ -99,7 +99,7 @@ export function CaseExperience({ project, locale }: { project: Project; locale: 
             <aside className="case-cinematic-story-sidebar">
               <div className="case-cinematic-story-sticky">
                 <span className="case-cinematic-overline">THE PROCESS / 01—05</span>
-                <h2>{es ? "DE LA IDEA<br/>AL IMPACTO." : "FROM IDEA<br/>TO IMPACT."}</h2>
+                <h2>{es ? <>DE LA IDEA<br/>AL IMPACTO.</> : <>FROM IDEA<br/>TO IMPACT.</>}</h2>
                 <nav aria-label={es ? "Etapas del proyecto" : "Project chapters"}>
                   {sections.map((section) => <a href={"#case-chapter-" + section.index} key={section.index}><span>{section.index}</span>{section.title}<ArrowRight size={13}/></a>)}
                 </nav>
