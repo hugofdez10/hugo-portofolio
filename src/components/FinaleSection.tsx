@@ -25,7 +25,7 @@ export function FinaleSection({ locale }: { locale: Locale }) {
 
           <div className="finale-copy" data-reveal>
             <span className="finale-eyebrow">SYSTEM STATUS / READY FOR THE NEXT CHALLENGE</span>
-            <h2 id="finale-heading">{es ? <>HAGAMOS ALGO<br/><em>QUE IMPORTE.</em></> : <>LET'S BUILD<br/><em>SOMETHING THAT MATTERS.</em></>}</h2>
+            <h2 id="finale-heading">{es ? <>HAGAMOS ALGO<br/><em>QUE IMPORTE.</em></> : <>LET&apos;S BUILD<br/><em>SOMETHING THAT MATTERS.</em></>}</h2>
             <p>{es
               ? "Las mejores ideas necesitan personas que se atrevan a construirlas. Si tienes un proyecto, una oportunidad o simplemente una conversación interesante, hablemos."
               : "The best ideas need people who dare to build them. If you have a project, an opportunity, or just an interesting conversation, let's talk."}</p>
