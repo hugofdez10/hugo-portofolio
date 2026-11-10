@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { isLocale, siteUrl } from "@/lib/i18n";
 import "../globals.css";
+import "../cinematic-final.css";
 import { fontVariables } from "../fonts";
 
 export const metadata: Metadata = {
