@@ -12,6 +12,9 @@ import { Navigation } from "./Navigation";
 import { Footer } from "./Footer";
 import { Motion } from "./Motion";
 import { CinematicCore } from "./CinematicCore";
+import { GpuCore } from "./GpuCore";
+import { IntelligenceVisual } from "./IntelligenceVisual";
+import { ChapterRail } from "./ChapterRail";
 import { ParticleField } from "./ParticleField";
 import { ProjectVisual } from "./ProjectVisual";
 import { CommandPalette } from "./CommandPalette";
@@ -78,9 +81,10 @@ export function Portfolio({ locale }: { locale: Locale }) {
       <Navigation locale={locale} />
       <Motion />
       <CommandPalette locale={locale} />
+      <ChapterRail locale={locale} />
       <main>
         <section className="cinematic-hero" id="top">
-          <div className="cinematic-hero-visual"><CinematicCore /><ParticleField /></div>
+          <div className="cinematic-hero-visual"><CinematicCore /><GpuCore /><ParticleField /></div>
           <div className="container cinematic-hero-inner">
             <div className="cinematic-hero-meta">
               <span>HF® / PORTFOLIO — 2026</span>
@@ -120,7 +124,7 @@ export function Portfolio({ locale }: { locale: Locale }) {
           </div>
         </section>
 
-        <section className="cinematic-proof" aria-label={locale === "es" ? "Resultados" : "Results"}>
+        <section className="cinematic-proof" id="proof" aria-label={locale === "es" ? "Resultados" : "Results"}>
           <div className="container">
             <div className="cinematic-section-kicker"><span>02 / THE PROOF</span><span>EST. 2026</span></div>
             <p className="cinematic-proof-intro">
@@ -138,6 +142,11 @@ export function Portfolio({ locale }: { locale: Locale }) {
             </dl>
           </div>
         </section>
+
+        <div className="cinematic-bridge" aria-hidden="true">
+          <span>DESIGN / BUILD / SHIP / REPEAT</span>
+          <span>DESIGN / BUILD / SHIP / REPEAT</span>
+        </div>
 
         <section className="section container cinematic-work" id="work">
           <div className="cinematic-section-kicker"><span>03 / SELECTED WORK</span><span>{locale === "es" ? "PROYECTOS / IMPACTO" : "PROJECTS / IMPACT"}</span></div>
@@ -192,31 +201,38 @@ export function Portfolio({ locale }: { locale: Locale }) {
           />
         </section>
 
-        <section className="section container" id="hackathons">
-          <SectionHead
-            eyebrow={t.hackathonsEyebrow}
-            title={t.hackathonsTitle}
-          />
-          <article className="panel card hackathon" data-reveal>
-            <div className="card-top">
-              <span className="label label-award">Top 3</span>
-              <span className="card-event">{gipuzkoa360.event}</span>
+        <section className="cinematic-intelligence" id="hackathons">
+          <div className="container">
+            <div className="cinematic-section-kicker">
+              <span>04 / THE INTELLIGENCE</span>
+              <span>GIPUZKOA AI HACKATHON — 2026</span>
             </div>
-            <h3>{gipuzkoa360.name}</h3>
-            <p>{gipuzkoa360.summary[locale]}</p>
-            <p className="card-stack">{gipuzkoa360.team[locale]}</p>
-            <div className="links">
-              <a href={gipuzkoa360.demo} {...external}>
-                {t.demo} <ArrowUpRight size={14} />
-              </a>
-              <a href={gipuzkoa360.repository} {...external}>
-                {t.code} <ArrowUpRight size={14} />
-              </a>
+            <div className="cinematic-intelligence-heading" data-reveal>
+              <div>
+                <p className="cinematic-intelligence-overline">{t.hackathonsEyebrow} / {gipuzkoa360.event}</p>
+                <h2>{locale === "es" ? "EL FUTURO ES" : "THE FUTURE IS"}<br/><em>{locale === "es" ? "UN SISTEMA." : "A SYSTEM."}</em></h2>
+              </div>
+              <div className="cinematic-intelligence-award">
+                <span>TOP</span>
+                <strong>03</strong>
+                <span>60+ TEAMS</span>
+              </div>
             </div>
-          </article>
-          <p className="footnote" data-reveal>
-            {t.upcoming}
-          </p>
+            <div className="cinematic-intelligence-grid">
+              <IntelligenceVisual />
+              <div className="cinematic-intelligence-story" data-reveal>
+                <span className="cinematic-intelligence-id">PROJECT / 003 — AI SYSTEMS</span>
+                <h3>{gipuzkoa360.name}</h3>
+                <p>{gipuzkoa360.summary[locale]}</p>
+                <p className="cinematic-intelligence-team">{gipuzkoa360.team[locale]}</p>
+                <div className="cinematic-intelligence-links">
+                  <a href={gipuzkoa360.demo} {...external}>{t.demo}<ArrowUpRight size={17}/></a>
+                  <a href={gipuzkoa360.repository} {...external}>{t.code}<ArrowUpRight size={17}/></a>
+                </div>
+                <span className="cinematic-intelligence-note">{locale === "es" ? "Visualización conceptual de 88 nodos municipales; no es un mapa geográfico." : "Conceptual visualization of 88 municipal nodes; not a geographic map."}</span>
+              </div>
+            </div>
+          </div>
         </section>
 
         <section className="section container" id="experience">
