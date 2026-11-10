@@ -1523,3 +1523,384 @@ body { background: #050608; }
   .shuttle-moving-dot { offset-distance: 50%; }
   .command-dialog { animation: none !important; }
 }
+
+
+/* ═══════════════════════════════════════
+   HF CINEMATIC V3 — GPU / CHAPTERS / DATA
+   ═══════════════════════════════════════ */
+
+/* Native WebGL2 renders over the CSS metallic sculpture. Shader compilation
+   is the only condition for replacing the fallback. */
+.gpu-core {
+  position: absolute;
+  z-index: 2;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 650ms ease;
+}
+.cinematic-hero-visual.gpu-active .gpu-core { opacity: 1; }
+.cinematic-hero-visual.gpu-active .core-assembly { display: none; }
+.cinematic-hero-visual.gpu-active .core-baseline { opacity: .35; }
+.cinematic-hero-visual.gpu-active .core-halo {
+  opacity: .45;
+  background: radial-gradient(circle, rgba(21,131,208,.24), transparent 64%);
+}
+.cinematic-hero .cinematic-hero-copy,
+.cinematic-hero .cinematic-hero-footer {
+  will-change: opacity;
+}
+
+/* Full-width transition between the impact figures and selected work */
+.cinematic-bridge {
+  display: grid;
+  gap: 0;
+  padding: clamp(28px,4vw,54px) 0;
+  margin: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  border-top: 1px solid rgba(99,189,227,.13);
+  border-bottom: 1px solid rgba(99,189,227,.13);
+  background: #080e14;
+  isolation: isolate;
+  mask-image: linear-gradient(90deg, transparent, black 10%, black 90%, transparent);
+}
+.cinematic-bridge span {
+  display: block;
+  width: max-content;
+  font-size: clamp(44px, 8.5vw, 132px);
+  font-family: var(--sans);
+  font-weight: 800;
+  line-height: 1.06;
+  letter-spacing: -.095em;
+  text-transform: uppercase;
+  background: linear-gradient(90deg, #1a2631 0%, #a4e1ff 46%, #26394a 82%);
+  color: transparent;
+  background-clip: text;
+  -webkit-background-clip: text;
+  animation: bridge-flow 34s linear infinite;
+}
+.cinematic-bridge span + span {
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(91,185,226,.35);
+  background: none;
+  animation-direction: reverse;
+  opacity: .62;
+}
+@keyframes bridge-flow {
+  from { transform: translateX(-9%); }
+  to { transform: translateX(-53%); }
+}
+
+/* The Intelligence: an immersive, fully responsive AI case study */
+.cinematic-intelligence {
+  position: relative;
+  padding: clamp(100px,11vw,176px) 0;
+  isolation: isolate;
+  background:
+    radial-gradient(ellipse at 25% 64%, rgba(20,86,131,.14), transparent 55%),
+    radial-gradient(ellipse at 80% 35%, rgba(73,56,124,.11), transparent 55%),
+    #060910;
+  border-top: 1px solid rgba(159,204,226,.09);
+  border-bottom: 1px solid rgba(159,204,226,.09);
+}
+.cinematic-intelligence .cinematic-section-kicker {
+  color: #8ab0c9;
+}
+.cinematic-intelligence-heading {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 32px;
+  padding: clamp(52px,7vw,95px) 0 66px;
+}
+.cinematic-intelligence-overline {
+  font: 500 11px/1.4 var(--sans);
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: #8fa9ba;
+  margin-bottom: 26px;
+}
+.cinematic-intelligence-heading h2 {
+  margin: 0;
+  font-family: var(--sans);
+  font-size: clamp(58px,8.1vw,125px);
+  line-height: .92;
+  letter-spacing: -.09em;
+  font-weight: 750;
+}
+.cinematic-intelligence-heading h2 em {
+  font-style: normal;
+  color: #66d2fa;
+}
+.cinematic-intelligence-award {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+  flex-shrink: 0;
+  border-left: 1px solid rgba(159,204,226,.19);
+  padding-left: 28px;
+}
+.cinematic-intelligence-award span {
+  color: #89a4b7;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .18em;
+}
+.cinematic-intelligence-award strong {
+  font: 700 clamp(85px,10vw,145px)/.9 var(--sans);
+  letter-spacing: -.10em;
+  color: #f1f8fd;
+  text-shadow: 0 0 70px rgba(102,210,250,.12);
+}
+.cinematic-intelligence-grid {
+  display: grid;
+  grid-template-columns: minmax(0,1.3fr) minmax(290px,.7fr);
+  gap: 1px;
+  border: 1px solid rgba(159,204,226,.16);
+  background: rgba(159,204,226,.16);
+}
+.intelligence-visual {
+  position: relative;
+  min-height: 510px;
+  isolation: isolate;
+  overflow: hidden;
+  background: radial-gradient(ellipse at 50% 50%, rgba(24,76,115,.14), transparent 68%), #070d17;
+}
+.intelligence-visual-grid {
+  position: absolute;
+  inset: -80%;
+  transform: perspective(700px) rotateX(67deg) scale(1.5);
+  opacity: .16;
+  background-image:
+    linear-gradient(rgba(98,190,229,.2) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(98,190,229,.2) 1px,transparent 1px);
+  background-size: 34px 34px;
+  pointer-events: none;
+}
+.intelligence-svg {
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  filter: drop-shadow(0 0 16px rgba(41,151,207,.18));
+  transform: perspective(1400px) rotateX(4deg);
+}
+.intelligence-node {
+  animation: intelligence-twinkle 4s ease-in-out infinite alternate;
+  animation-delay: var(--node-order);
+}
+.intelligence-node.is-prominent {
+  animation: intelligence-twinkle 2.2s ease-in-out infinite alternate;
+  animation-delay: var(--node-order);
+  filter: drop-shadow(0 0 4px rgba(159,237,255,.7));
+}
+@keyframes intelligence-twinkle {
+  from { opacity: .3; }
+  to { opacity: 1; }
+}
+.intelligence-readout {
+  position: absolute;
+  left: 26px;
+  right: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  color: #82bedb;
+  font: 10px/1.5 monospace;
+  letter-spacing: .16em;
+}
+.intelligence-readout-top { top: 23px; }
+.intelligence-readout-bottom { bottom: 22px; color: #627f98; }
+.intelligence-pulse {
+  display: inline-block;
+  border-radius: 50%;
+  width: 7px;
+  height: 7px;
+  background: #91eaff;
+  box-shadow: 0 0 15px rgba(111,212,255,.75);
+  animation: intelligence-twinkle 1.4s ease-in-out infinite alternate;
+}
+.cinematic-intelligence-story {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 23px;
+  min-width: 0;
+  padding: clamp(28px,3.6vw,60px);
+  background: #0b1019;
+}
+.cinematic-intelligence-id {
+  font: 10px/1.5 monospace;
+  letter-spacing: .14em;
+  color: #75c2e6;
+}
+.cinematic-intelligence-story h3 {
+  font-size: clamp(38px,4vw,64px);
+  font-weight: 740;
+  letter-spacing: -.075em;
+  line-height: 1;
+  font-family: var(--sans);
+}
+.cinematic-intelligence-story p {
+  font-size: 14px;
+  line-height: 1.8;
+  color: #b0c0cc;
+}
+.cinematic-intelligence-story .cinematic-intelligence-team {
+  font-size: 12px;
+  color: #749bb3;
+}
+.cinematic-intelligence-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 27px;
+  width: 100%;
+  border-top: 1px solid rgba(151,190,213,.16);
+  padding-top: 19px;
+}
+.cinematic-intelligence-links a {
+  display: inline-flex;
+  gap: 8px;
+  align-items: center;
+  font-size: 11px;
+  text-transform: uppercase;
+  font-weight: 700;
+  letter-spacing: .12em;
+}
+.cinematic-intelligence-links a:hover {
+  color: #67d3ff;
+}
+.cinematic-intelligence-story .cinematic-intelligence-note {
+  font-size: 10px;
+  line-height: 1.6;
+  color: #647b8c;
+}
+
+/* Subtle technical navigation, available only on spacious desktops */
+.chapter-rail {
+  position: fixed;
+  z-index: 55;
+  right: clamp(14px,1.3vw,27px);
+  top: 50%;
+  transform: translateY(-50%);
+  min-width: 64px;
+  color: #7c94a8;
+  font-family: var(--sans);
+}
+.chapter-rail-heading,
+.chapter-rail-bottom {
+  display: block;
+  font: 9px/1.4 monospace;
+  letter-spacing: .17em;
+  color: #5d8199;
+  margin: 0 0 17px 0;
+}
+.chapter-rail-bottom {
+  margin: 16px 0 0;
+}
+.chapter-rail-track {
+  position: relative;
+  display: grid;
+  gap: 0;
+  border-left: 1px solid rgba(136,184,214,.2);
+}
+.chapter-rail-progress {
+  position: absolute;
+  left: -1px;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: #57cfff;
+  transform-origin: top center;
+  transition: transform 80ms linear;
+  box-shadow: 0 0 10px #57cfff;
+}
+.chapter-rail-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  min-height: 31px;
+  padding-left: 11px;
+  font: 10px/1.2 monospace;
+  letter-spacing: .08em;
+  opacity: .46;
+  transition: opacity .2s, color .2s;
+}
+.chapter-rail-item:hover,
+.chapter-rail-item.is-active {
+  opacity: 1;
+  color: #cff2ff;
+}
+.chapter-rail-dot {
+  position: absolute;
+  top: 50%;
+  left: -3px;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #648399;
+  transform: translateY(-50%);
+}
+.chapter-rail-item.is-active .chapter-rail-dot {
+  background: #69d9ff;
+  box-shadow: 0 0 12px rgba(105,217,255,.65);
+}
+.chapter-rail-name {
+  max-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  opacity: 0;
+  transition: max-width .3s, opacity .2s;
+}
+.chapter-rail:hover .chapter-rail-name,
+.chapter-rail:focus-within .chapter-rail-name {
+  max-width: 120px;
+  opacity: 1;
+}
+@media (max-width: 1340px) {
+  .chapter-rail { display: none; }
+}
+@media (max-width: 950px) {
+  .cinematic-intelligence-heading h2 { font-size: clamp(58px,8vw,86px); }
+  .cinematic-intelligence-grid { grid-template-columns: 1fr; }
+  .intelligence-visual { min-height: 420px; }
+  .cinematic-intelligence-story { min-height: 320px; }
+}
+@media (max-width: 760px) {
+  .cinematic-intelligence { padding: 90px 0; }
+  .cinematic-intelligence-heading { align-items: flex-start; padding: 47px 0 38px; }
+  .cinematic-intelligence-heading h2 { font-size: clamp(44px,10.4vw,69px); }
+  .cinematic-intelligence-award {
+    padding-left: 16px;
+  }
+  .cinematic-intelligence-award strong { font-size: 72px; }
+  .cinematic-intelligence-award span { font-size: 8px; }
+  .intelligence-visual { min-height: 315px; }
+  .intelligence-readout { font-size: 8px; left: 15px; right: 15px; }
+  .cinematic-intelligence-story { padding: 30px 25px; }
+  .cinematic-bridge { padding: 22px 0; }
+  .cinematic-bridge span { font-size: clamp(42px,12vw,83px); }
+}
+@media (max-width: 430px) {
+  .cinematic-intelligence-heading h2 { font-size: 42px; }
+  .cinematic-intelligence-award strong { font-size: 56px; }
+  .cinematic-intelligence-award { padding-left: 10px; }
+  .cinematic-intelligence-heading { gap: 12px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .gpu-core { display: none; }
+  .cinematic-bridge span,
+  .intelligence-node,
+  .intelligence-pulse { animation: none !important; }
+  .cinematic-bridge span { transform: none; }
+}
