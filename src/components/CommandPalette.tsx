@@ -23,6 +23,7 @@ export function CommandPalette({ locale }: { locale: Locale }) {
   const items: Item[] = [
     { id: "work", title: es ? "Explorar proyectos" : "Explore projects", subtitle: "01 / WORK", keywords: "work proyectos projects", href: `${base}#work` },
     { id: "hackathons", title: "Gipuzkoa AI / Top 3", subtitle: "02 / HACKATHONS", keywords: "ai hackathon gipuzkoa 360 awards", href: `${base}#hackathons` },
+    { id: "lab", title: es ? "Laboratorio y experimentos" : "Lab and experiments", subtitle: "05 / THE LAB", keywords: "lab experimentos prototipos proyectos personales", href: `${base}#lab` },
     { id: "experience", title: es ? "Experiencia y tecnologías" : "Experience and skills", subtitle: "03 / ABOUT", keywords: "experience stack skills estudios education tecnologías", href: `${base}#experience` },
     { id: "contact", title: es ? "Contactar con Hugo" : "Contact Hugo", subtitle: "04 / CONTACT", keywords: "contact mail contacto email", href: `${base}#contact` },
     ...projects.filter((project) => project.caseStudy).map((project) => ({
