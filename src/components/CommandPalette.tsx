@@ -16,7 +16,6 @@ export function CommandPalette({ locale }: { locale: Locale }) {
   const [selected, setSelected] = useState(0);
   const input = useRef<HTMLInputElement>(null);
   const dialog = useRef<HTMLElement>(null);
-  const trigger = useRef<HTMLElement | null>(null);
   const es = locale === "es";
   const base = `/${locale}/`;
 
@@ -47,7 +46,7 @@ export function CommandPalette({ locale }: { locale: Locale }) {
     setOpen(false);
     setQuery("");
     setSelected(0);
-    trigger.current?.focus();
+    document.querySelector<HTMLElement>(".command-trigger")?.focus();
   }
   function launch(item: Item) {
     close();
@@ -56,7 +55,6 @@ export function CommandPalette({ locale }: { locale: Locale }) {
   }
   useEffect(() => {
     const show = () => {
-      trigger.current = document.activeElement instanceof HTMLElement ? document.activeElement : null;
       setOpen(true);
       setQuery("");
       setSelected(0);
