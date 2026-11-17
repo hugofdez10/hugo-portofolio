@@ -1,5 +1,6 @@
 import "./globals.css";
 import { fontVariables } from "./fonts";
+import { themeScript } from "@/lib/theme";
 import Link from "next/link";
 import type { Metadata } from "next";
 import { siteUrl } from "@/lib/i18n";
@@ -9,7 +10,10 @@ export const metadata: Metadata = {
 };
 export default function GlobalNotFound() {
   return (
-    <html lang="en" className={fontVariables}>
+    <html lang="en" className={fontVariables} suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+      </head>
       <body>
         <main className="not-found">
           <div className="container">

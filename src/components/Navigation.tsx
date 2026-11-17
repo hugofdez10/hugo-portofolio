@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { Download, Menu, X } from "lucide-react";
+import { Download, Menu, Moon, Sun, X } from "lucide-react";
 import { copy, type Locale } from "@/lib/i18n";
 import { cvPath } from "@/data/socials";
 
@@ -16,6 +16,16 @@ export function Navigation({
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const t = copy[locale];
+  function toggleTheme() {
+    const root = document.documentElement;
+    const next = root.dataset.theme === "dark" ? "light" : "dark";
+    root.dataset.theme = next;
+    try {
+      localStorage.setItem("theme", next);
+    } catch {
+      /* Storage can be blocked; the choice then lasts for this page only. */
+    }
+  }
   function rememberLanguagePosition(target: Locale) {
     sessionStorage.setItem(
       "portfolio-language-scroll",
@@ -48,8 +58,8 @@ export function Navigation({
     return () => window.removeEventListener("scroll", onScroll);
   }, [locale]);
   const links = [
-    ["work", t.nav.work],
     ["hackathons", t.nav.hackathons],
+    ["work", t.nav.work],
     ["experience", t.nav.experience],
     ["contact", t.nav.contact],
   ];
@@ -70,14 +80,18 @@ export function Navigation({
     </Link>
   );
   return (
-    <header className={`site-header ${scrolled ? "is-scrolled" : ""}`}>
+    <header
+      className={`site-header ${scrolled ? "is-scrolled" : ""} ${
+        path === "" && !scrolled && !open ? "on-sky" : ""
+      }`}
+    >
       <div className="container nav-inner">
         <Link
           className="brand"
           href={`/${locale}`}
           aria-label="Hugo Fernández Díez — home"
         >
-          <span className="brand-mark">HF</span>
+          <span className="brand-mark">Hugo Fernández</span>
         </Link>
         <nav
           className={`nav-links ${open ? "open" : ""}`}
@@ -98,8 +112,18 @@ export function Navigation({
             {languageLink("en")}
             {languageLink("es")}
           </div>
+          <button
+            className="theme-toggle"
+            type="button"
+            onClick={toggleTheme}
+            aria-label={t.themeToggle}
+            title={t.themeToggle}
+          >
+            <Sun className="icon-sun" size={16} aria-hidden="true" />
+            <Moon className="icon-moon" size={16} aria-hidden="true" />
+          </button>
           <a
-            className="button button-ghost nav-cv"
+            className="button button-dark nav-cv"
             href={cvPath}
             download="CV_Hugo_Fernandez_Diez.pdf"
           >

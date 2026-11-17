@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { isLocale, siteUrl } from "@/lib/i18n";
 import "../globals.css";
 import { fontVariables } from "../fonts";
+import { themeScript } from "@/lib/theme";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -36,13 +37,11 @@ export default async function LocaleLayout({
   const { lang } = await params;
   if (!isLocale(lang)) notFound();
   return (
-    <html lang={lang} className={fontVariables}>
+    <html lang={lang} className={fontVariables} suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+      </head>
       <body>
-        <div className="ambient" aria-hidden="true">
-          <span />
-          <span />
-          <span />
-        </div>
         <div className="scroll-progress" aria-hidden="true" />
         {children}
       </body>

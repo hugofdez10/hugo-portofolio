@@ -1,17 +1,26 @@
-import { Cormorant_Garamond, DM_Sans } from "next/font/google";
+import { Hanken_Grotesk, IBM_Plex_Mono, Instrument_Serif } from "next/font/google";
 
-export const serif = Cormorant_Garamond({
+/** Wordmark only. */
+export const serif = Instrument_Serif({
   subsets: ["latin"],
-  weight: ["500", "600"],
+  weight: ["400"],
   variable: "--font-serif",
   display: "swap",
 });
 
-export const sans = DM_Sans({
+export const sans = Hanken_Grotesk({
   subsets: ["latin"],
   weight: ["400", "500", "600"],
   variable: "--font-sans",
   display: "swap",
 });
 
-export const fontVariables = `${serif.variable} ${sans.variable}`;
+/** Section numbers, eyebrows and small data. */
+export const mono = IBM_Plex_Mono({
+  subsets: ["latin"],
+  weight: ["400", "500"],
+  variable: "--font-mono",
+  display: "swap",
+});
+
+export const fontVariables = `${serif.variable} ${sans.variable} ${mono.variable}`;
