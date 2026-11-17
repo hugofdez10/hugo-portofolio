@@ -292,12 +292,264 @@ img {
   gap: 24px;
   height: var(--header);
 }
-.brand-mark {
-  font-family: var(--serif);
-  font-size: 26px;
-  font-weight: 400;
-  letter-spacing: -0.01em;
-  white-space: nowrap;
+.brand {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 10px;
+}
+.logo {
+  display: block;
+  width: auto;
+  height: 44px;
+  overflow: visible;
+}
+
+/* Mark */
+.logo-hex-fill {
+  opacity: 0.1;
+}
+.logo-hex {
+  fill: none;
+  stroke: currentColor;
+  stroke-opacity: 0.35;
+  stroke-width: 1.2;
+  stroke-dasharray: 100;
+  stroke-dashoffset: 100;
+  animation: logo-draw 1.1s var(--ease) 0.1s forwards;
+}
+.logo-pulse {
+  fill: none;
+  stroke-width: 1;
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: logo-pulse 3.2s var(--ease) 1.4s infinite;
+}
+.brand:hover .logo-pulse {
+  animation-duration: 1s;
+}
+@keyframes logo-pulse {
+  0% {
+    opacity: 0.85;
+    transform: scale(1);
+  }
+  60%,
+  100% {
+    opacity: 0;
+    transform: scale(1.45);
+  }
+}
+.logo-orbit {
+  fill: none;
+  stroke: currentColor;
+  stroke-opacity: 0.4;
+  stroke-width: 0.6;
+  stroke-dasharray: 1 2.4;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: logo-spin 14s linear infinite;
+}
+.logo-comet {
+  fill: none;
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  stroke-dasharray: 16 84;
+  stroke-dashoffset: 100;
+  opacity: 0;
+  animation:
+    logo-fade 0.6s ease 1s forwards,
+    logo-comet 3.2s linear 1s infinite;
+}
+.logo-scan {
+  animation: logo-scan 4.6s var(--ease) 1.6s infinite;
+}
+.logo-stroke {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.8;
+  stroke-linecap: square;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: logo-draw 0.7s var(--ease) forwards;
+}
+.logo-glitch {
+  fill: none;
+  stroke-width: 2.8;
+  stroke-linecap: square;
+  opacity: 0;
+  animation: logo-glitch-a 6.5s steps(1) 2.2s infinite;
+}
+.logo-glitch-a {
+  stroke: #6ff3ff;
+}
+.logo-glitch-b {
+  stroke: #ff5ecf;
+  animation-name: logo-glitch-b;
+}
+.logo-mark {
+  animation: logo-shake 6.5s steps(1) 2.2s infinite;
+}
+.logo-cursor {
+  opacity: 0;
+  animation: logo-blink 1.1s steps(1) 1.2s infinite;
+}
+
+/* Wordmark */
+.logo-type {
+  animation: logo-type-in 1s var(--ease) 0.45s both;
+}
+.logo-name {
+  fill: currentColor;
+  font-family: var(--mono);
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+}
+.logo-sheen-band {
+  animation: logo-sheen 5.5s var(--ease) 1.4s infinite;
+}
+.logo-tag {
+  fill: currentColor;
+  opacity: 0.62;
+  font-family: var(--mono);
+  font-size: 7.4px;
+  letter-spacing: 0.3em;
+}
+
+/* Hover: everything speeds up and the glitch fires right away */
+.brand:hover .logo-comet {
+  animation-duration: 0.6s, 1s;
+}
+.brand:hover .logo-orbit {
+  animation-duration: 2.5s;
+}
+.brand:hover .logo-glitch-a {
+  animation: logo-glitch-a 0.9s steps(1) infinite;
+}
+.brand:hover .logo-glitch-b {
+  animation: logo-glitch-b 0.9s steps(1) infinite;
+}
+.brand:hover .logo-sheen-band {
+  animation-duration: 1.4s;
+}
+
+@keyframes logo-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes logo-fade {
+  to {
+    opacity: 1;
+  }
+}
+@keyframes logo-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes logo-comet {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes logo-scan {
+  0% {
+    transform: translateY(0);
+  }
+  45%,
+  100% {
+    transform: translateY(66px);
+  }
+}
+@keyframes logo-glitch-a {
+  0%,
+  86%,
+  100% {
+    opacity: 0;
+    transform: none;
+  }
+  87% {
+    opacity: 0.9;
+    transform: translate(-1.6px, 0.6px);
+  }
+  89% {
+    opacity: 0.9;
+    transform: translate(1.2px, -0.8px);
+  }
+  91% {
+    opacity: 0;
+  }
+  94% {
+    opacity: 0.8;
+    transform: translate(-1px, 0);
+  }
+  95.5% {
+    opacity: 0;
+  }
+}
+@keyframes logo-glitch-b {
+  0%,
+  86%,
+  100% {
+    opacity: 0;
+    transform: none;
+  }
+  87% {
+    opacity: 0.9;
+    transform: translate(1.6px, -0.6px);
+  }
+  89% {
+    opacity: 0.9;
+    transform: translate(-1.2px, 0.8px);
+  }
+  91% {
+    opacity: 0;
+  }
+  94% {
+    opacity: 0.8;
+    transform: translate(1px, 0.4px);
+  }
+  95.5% {
+    opacity: 0;
+  }
+}
+@keyframes logo-shake {
+  0%,
+  86%,
+  91%,
+  100% {
+    transform: none;
+  }
+  87% {
+    transform: translate(0.6px, 0);
+  }
+  89% {
+    transform: translate(-0.6px, 0.3px);
+  }
+}
+@keyframes logo-blink {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+@keyframes logo-type-in {
+  from {
+    opacity: 0;
+    transform: translateX(-8px);
+  }
+}
+@keyframes logo-sheen {
+  0% {
+    transform: translateX(0);
+  }
+  40%,
+  100% {
+    transform: translateX(190px);
+  }
 }
 .nav-links {
   display: flex;
@@ -1333,8 +1585,8 @@ img {
   .container {
     width: min(100% - 32px, 1040px);
   }
-  .brand-mark {
-    font-size: 23px;
+  .logo {
+    height: 38px;
   }
   .nav-links {
     display: none;

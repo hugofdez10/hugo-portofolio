@@ -13,6 +13,7 @@ export const siteUrl =
 export const copy = {
   en: {
     themeToggle: "Switch between light and dark theme",
+    logoTag: "COMPUTER ENGINEERING",
     nav: {
       work: "Projects",
       hackathons: "Hackathons",
@@ -89,6 +90,7 @@ export const copy = {
   },
   es: {
     themeToggle: "Cambiar entre tema claro y oscuro",
+    logoTag: "INGENIERÍA INFORMÁTICA",
     nav: {
       work: "Proyectos",
       hackathons: "Hackathons",

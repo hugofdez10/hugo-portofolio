@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Download, Menu, Moon, Sun, X } from "lucide-react";
 import { copy, type Locale } from "@/lib/i18n";
 import { cvPath } from "@/data/socials";
+import { Logo } from "./Logo";
 
 export function Navigation({
   locale,
@@ -91,7 +92,7 @@ export function Navigation({
           href={`/${locale}`}
           aria-label="Hugo Fernández Díez — home"
         >
-          <span className="brand-mark">Hugo Fernández</span>
+          <Logo tagline={t.logoTag} />
         </Link>
         <nav
           className={`nav-links ${open ? "open" : ""}`}
